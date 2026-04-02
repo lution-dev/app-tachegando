@@ -1,0 +1,26 @@
+[
+  {
+    "id": "z1",
+    "center": {"lat": -23.5502, "lng": -46.6372},
+    "intensity": 0.92,
+    "label": "Demanda muito alta"
+  },
+  {
+    "id": "z2",
+    "center": {"lat": -23.5514, "lng": -46.6388},
+    "intensity": 0.68,
+    "label": "Demanda alta"
+  },
+  {
+    "id": "z3",
+    "center": {"lat": -23.5494, "lng": -46.6361},
+    "intensity": 0.44,
+    "label": "Demanda média"
+  },
+  {
+    "id": "z4",
+    "center": {"lat": -23.5525, "lng": -46.6360},
+    "intensity": 0.26,
+    "label": "Demanda baixa"
+  }
+]
