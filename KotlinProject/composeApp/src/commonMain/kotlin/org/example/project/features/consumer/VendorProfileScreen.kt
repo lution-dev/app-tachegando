@@ -147,7 +147,6 @@ fun VendorProfileScreen(
                         }
                         Spacer(modifier = Modifier.width(12.dp))
                         Text(product.name, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
-                        Text(product.price, style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.SemiBold))
                     }
                 }
                 item { Spacer(modifier = Modifier.height(24.dp)) }

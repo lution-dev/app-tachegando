@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -43,16 +42,15 @@ fun VendorProductsScreen(
     var products by remember {
         mutableStateOf(
             listOf(
-                Product("p1", "Pão Francês (6 un)", "R$ 6,00"),
-                Product("p2", "Pão de Queijo (10 un)", "R$ 12,00"),
-                Product("p3", "Bolo de Chocolate", "R$ 35,00"),
-                Product("p4", "Torta de Limão", "R$ 40,00"),
-                Product("p5", "Sonho", "R$ 6,00")
+                Product("p1", "Pão Francês (6 un)"),
+                Product("p2", "Pão de Queijo (10 un)"),
+                Product("p3", "Bolo de Chocolate"),
+                Product("p4", "Torta de Limão"),
+                Product("p5", "Sonho")
             )
         )
     }
     var newProductName by remember { mutableStateOf("") }
-    var newProductPrice by remember { mutableStateOf("") }
 
     Scaffold(
         topBar = {
@@ -91,7 +89,6 @@ fun VendorProductsScreen(
                     ) {
                         Column(modifier = Modifier.weight(1f)) {
                             Text(product.name, fontWeight = FontWeight.SemiBold)
-                            Text(product.price, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)
                         }
                         OutlinedButton(
                             onClick = {
@@ -124,28 +121,16 @@ fun VendorProductsScreen(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            OutlinedTextField(
-                value = newProductPrice,
-                onValueChange = { newProductPrice = it },
-                label = { Text("Preço (ex: R$ 10,00)") },
-                singleLine = true,
-                modifier = Modifier.fillMaxWidth(),
-                shape = RoundedCornerShape(12.dp)
-            )
-
-            Spacer(modifier = Modifier.height(12.dp))
-
             Button(
                 onClick = {
-                    if (newProductName.isNotBlank() && newProductPrice.isNotBlank()) {
-                        products = products + Product("new_${products.size}", newProductName, newProductPrice)
+                    if (newProductName.isNotBlank()) {
+                        products = products + Product("new_${products.size}", newProductName)
                         newProductName = ""
-                        newProductPrice = ""
                     }
                 },
                 modifier = Modifier.fillMaxWidth().height(48.dp),
                 shape = RoundedCornerShape(12.dp),
-                enabled = newProductName.isNotBlank() && newProductPrice.isNotBlank()
+                enabled = newProductName.isNotBlank()
             ) {
                 Text("Adicionar Produto")
             }

@@ -59,7 +59,7 @@ fun SubscriptionScreen(
                     Text("Plano Pro", style = MaterialTheme.typography.headlineMedium)
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "R$ 49,00 / m\u00eas",
+                        "Acesso premium para vendedores",
                         style = MaterialTheme.typography.headlineSmall,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(vertical = 4.dp)
