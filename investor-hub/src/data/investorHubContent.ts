@@ -53,12 +53,12 @@ export const investorHubContent: InvestorHubContent = {
       label: 'Antes do aporte',
       title: 'Convencer e qualificar investidores',
       summary:
-        'Pitch, tese, mercado, tracao, uso de capital e chamada clara para investidores interessados.',
+        'Pitch, tese, mercado, tração, uso de capital e chamada clara para investidores interessados.',
       requiresAuth: false,
       sections: [
         {
           eyebrow: 'Oportunidade',
-          title: 'A rua tem oferta, demanda e pouca inteligencia de rota.',
+          title: 'A rua tem oferta, demanda e pouca inteligência de rota.',
           body:
             'O Tá Chegando conecta vendedores itinerantes a consumidores próximos com mapa, alertas, demanda por região e ferramentas para vender melhor.',
           bullets: [
@@ -147,9 +147,27 @@ export const investorHubContent: InvestorHubContent = {
       requiresAuth: false,
     },
     {
+      title: 'Business Plan revisado',
+      type: 'DOCX',
+      description: 'Plano de negócio completo com premissas comerciais, expansão e proposta da rodada.',
+      requiresAuth: true,
+    },
+    {
       title: 'Uso do capital',
       type: 'XLSX',
       description: 'Plano de alocação por frente de crescimento.',
+      requiresAuth: true,
+    },
+    {
+      title: 'Premissas financeiras do lançamento',
+      type: 'XLSX',
+      description: 'Base, assinatura, receita projetada e sensibilidade de conversão.',
+      requiresAuth: true,
+    },
+    {
+      title: 'Dados societários e contrato',
+      type: 'PDF',
+      description: 'Dados da empresa, contrato de investidor-anjo e documentos de diligência legal.',
       requiresAuth: true,
     },
     {
@@ -160,48 +178,115 @@ export const investorHubContent: InvestorHubContent = {
       requiresAuth: false,
     },
   ],
+  businessPlan: {
+    title: 'Business Plan revisado',
+    summary:
+      'O plano foi reorganizado para leitura de investidores: tese, validação, lançamento, expansão, proposta da rodada e diligência jurídica ficam em uma trilha única.',
+    publicHighlights: [
+      {
+        label: 'Tese',
+        title: 'Marketplace de proximidade + SaaS',
+        detail:
+          'O Tá Chegando organiza a economia itinerante conectando vendedores em rota a compradores próximos com geolocalização, alertas e gestão operacional.',
+      },
+      {
+        label: 'Validação',
+        title: 'Itinerância dinâmica e vendas diretas',
+        detail:
+          'O Business Plan aponta validação com canais B2B e operação de campo; nomes, acordos e termos comerciais ficam restritos ao data room.',
+      },
+      {
+        label: 'Lançamento',
+        title: 'Produto pronto para ativação comercial',
+        detail:
+          'A próxima etapa é iniciar campo, suporte aos vendedores, playbook de expansão e gestão de frotas com dados em tempo real.',
+      },
+    ],
+    protectedHighlights: [
+      {
+        label: 'Interessado qualificado',
+        title: 'Base e receita de lançamento',
+        detail:
+          'Premissas de base pré-cadastrada, assinatura, conversão e receita mensal ficam protegidas por convite.',
+      },
+      {
+        label: 'Negociação',
+        title: 'Proposta de aporte',
+        detail:
+          'Cotas, retorno esperado e condições econômicas devem ser liberados somente no estágio de negociação.',
+      },
+      {
+        label: 'Diligência legal',
+        title: 'Dados financeiros e jurídicos protegidos',
+        detail:
+          'Dados societários, contrato e documentos da empresa não ficam públicos na área aberta do hub.',
+      },
+    ],
+    milestones: [
+      {
+        period: 'Imediato',
+        title: 'Lançamento em São Paulo',
+        description: 'Ativação comercial, operação de campo e suporte aos primeiros vendedores.',
+      },
+      {
+        period: '6 meses',
+        title: 'Licenciamento LATAM e frotas',
+        description: 'Abrir conversas regionais e consolidar gestão de múltiplos vendedores.',
+      },
+      {
+        period: '1 ano',
+        title: 'Expansão nacional',
+        description: 'Replicar o playbook operacional em outros estados brasileiros.',
+      },
+      {
+        period: '2-5 anos',
+        title: 'Conversão e liderança regional',
+        description: 'Preparar maturidade operacional, eventos contratuais e possível saída estratégica.',
+      },
+    ],
+  },
   roundManager: {
     currentRound: {
       name: 'Rodada Anjo 2026',
       status: 'Preparação final',
-      targetAmount: 'R$ 1,2 mi',
-      committedAmount: 'R$ 420 mil',
-      softCommitments: 'R$ 310 mil',
-      instrument: 'SAFE / mútuo conversível',
-      valuationModel: 'Cap negociável por tranche',
-      closingTarget: '31/07/2026',
-      owner: 'Gabriel e founding team',
+      targetAmount: 'R$ 375 mil',
+      committedAmount: 'Em qualificação',
+      softCommitments: '25 cotas',
+      instrument: 'Contrato de investidor-anjo',
+      valuationModel: 'LC 182/2021; termos econômicos no data room',
+      closingTarget: 'Lançamento imediato',
+      owner: 'Founding team',
     },
     stages: [
       {
         label: 'Novo interesse',
         count: 18,
-        amount: 'R$ 1,8 mi',
+        amount: 'R$ 270 mil',
         status: 'done',
       },
       {
         label: 'Reunião marcada',
         count: 9,
-        amount: 'R$ 920 mil',
+        amount: 'R$ 135 mil',
         status: 'current',
       },
       {
         label: 'Due diligence',
         count: 5,
-        amount: 'R$ 640 mil',
+        amount: 'R$ 75 mil',
         status: 'current',
       },
       {
         label: 'Term sheet',
         count: 2,
-        amount: 'R$ 310 mil',
+        amount: 'R$ 30 mil',
         status: 'next',
       },
       {
         label: 'Comprometido',
-        count: 3,
-        amount: 'R$ 420 mil',
-        status: 'done',
+        count: 0,
+        amount: 'R$ 0',
+        status: 'next',
       },
     ],
     trackedInvestors: [
@@ -209,7 +294,7 @@ export const investorHubContent: InvestorHubContent = {
         name: 'C. T.',
         profile: 'Anjo operador, marketplace local',
         stage: 'Term sheet',
-        ticket: 'R$ 180 mil',
+        ticket: 'R$ 30 mil',
         lastTouch: 'Revisão de cap enviada',
         nextStep: 'Validar cláusulas de informação',
       },
@@ -217,7 +302,7 @@ export const investorHubContent: InvestorHubContent = {
         name: 'B. M.',
         profile: 'Founder investidor, SaaS B2B',
         stage: 'Due diligence',
-        ticket: 'R$ 120 mil',
+        ticket: 'R$ 15 mil',
         lastTouch: 'Acesso ao data room liberado',
         nextStep: 'Responder perguntas sobre CAC',
       },
@@ -225,7 +310,7 @@ export const investorHubContent: InvestorHubContent = {
         name: 'A. P. N.',
         profile: 'Smart money, operação urbana',
         stage: 'Reunião marcada',
-        ticket: 'R$ 90 mil',
+        ticket: 'R$ 15 mil',
         lastTouch: 'Convite enviado',
         nextStep: 'Demo do app vendedor',
       },
@@ -239,12 +324,12 @@ export const investorHubContent: InvestorHubContent = {
       {
         label: 'Interessado qualificado',
         audience: 'Investidores com reunião agendada',
-        documents: ['Deck completo', 'Uso do capital', 'Perguntas de diligência'],
+        documents: ['Business Plan revisado', 'Uso do capital', 'Premissas financeiras'],
       },
       {
         label: 'Investidor confirmado',
         audience: 'Investidores com compromisso assinado',
-        documents: ['Term sheet', 'Cap table', 'Updates mensais'],
+        documents: ['Dados societários e contrato', 'Term sheet', 'Updates mensais'],
       },
     ],
     governance: [

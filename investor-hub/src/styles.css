@@ -553,6 +553,171 @@ button {
   color: var(--orange);
 }
 
+.business-plan-panel {
+  display: grid;
+  gap: 26px;
+  border: 1px solid var(--line);
+  padding: 34px 36px;
+  background: #fff;
+}
+
+.business-plan-copy {
+  max-width: 850px;
+}
+
+.business-plan-copy h2 {
+  color: var(--navy);
+  font-size: 28px;
+  line-height: 1.12;
+  margin: 0 0 12px;
+}
+
+.business-plan-copy p:not(.section-label) {
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.business-plan-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, .72fr);
+  gap: 28px;
+  align-items: stretch;
+}
+
+.plan-highlight-list,
+.protected-insights,
+.plan-roadmap {
+  border-top: 1px solid var(--line);
+}
+
+.plan-highlight {
+  min-height: 92px;
+  display: grid;
+  grid-template-columns: 98px 1fr;
+  gap: 18px;
+  align-items: start;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.plan-highlight > span {
+  color: var(--orange);
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .02em;
+}
+
+.plan-highlight.locked {
+  grid-template-columns: 24px 1fr;
+}
+
+.plan-highlight.locked > span {
+  display: grid;
+  place-items: start;
+  color: var(--quiet);
+}
+
+.plan-highlight.locked .icon {
+  width: 18px;
+  height: 18px;
+}
+
+.plan-highlight strong {
+  color: var(--navy);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.plan-highlight p {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.45;
+  margin: 7px 0 0;
+}
+
+.protected-insights {
+  display: grid;
+  align-content: start;
+  background: var(--surface-muted);
+  border-left: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+.protected-heading {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  padding: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.protected-heading .icon {
+  color: var(--quiet);
+}
+
+.protected-heading strong,
+.protected-heading span {
+  display: block;
+}
+
+.protected-heading strong {
+  color: var(--navy);
+  font-size: 15px;
+  line-height: 1.25;
+}
+
+.protected-heading span {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+  margin-top: 5px;
+}
+
+.protected-insights .plan-highlight {
+  margin: 0 18px;
+}
+
+.plan-roadmap {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-left: 1px solid var(--line);
+}
+
+.plan-roadmap li {
+  min-height: 124px;
+  display: grid;
+  align-content: start;
+  gap: 7px;
+  padding: 16px;
+  border-right: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.plan-roadmap li > span {
+  color: var(--orange);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.plan-roadmap strong {
+  color: var(--navy);
+  font-size: 14px;
+  line-height: 1.25;
+}
+
+.plan-roadmap small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.35;
+}
+
 .resource-grid {
   display: grid;
   grid-template-columns: minmax(0, 1.35fr) minmax(340px, .65fr);
@@ -1038,16 +1203,26 @@ button {
   .stage-tabs,
   .summary-copy,
   .metric-grid,
+  .business-plan-grid,
   .round-ledger,
   .round-terms,
   .governance-list,
   .pipeline-strip,
+  .plan-roadmap,
   .journey-steps {
     grid-template-columns: 1fr;
   }
 
   .round-panel {
     padding: 22px 16px;
+  }
+
+  .business-plan-panel {
+    padding: 22px 16px;
+  }
+
+  .business-plan-copy h2 {
+    font-size: 23px;
   }
 
   .round-heading {
@@ -1065,14 +1240,30 @@ button {
   .round-ledger,
   .round-terms,
   .governance-list,
-  .pipeline-strip {
+  .pipeline-strip,
+  .plan-roadmap {
     border-left: 0;
   }
 
   .round-ledger div,
   .round-terms div,
   .governance-list li,
-  .pipeline-stage {
+  .pipeline-stage,
+  .plan-roadmap li {
+    border-left: 1px solid var(--line);
+  }
+
+  .plan-highlight {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .plan-highlight.locked {
+    grid-template-columns: 24px 1fr;
+    gap: 12px;
+  }
+
+  .protected-insights {
     border-left: 1px solid var(--line);
   }
 

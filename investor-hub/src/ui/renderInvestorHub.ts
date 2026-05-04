@@ -1,4 +1,7 @@
 import type {
+  InvestorHubBusinessPlan,
+  InvestorHubBusinessPlanHighlight,
+  InvestorHubBusinessPlanMilestone,
   InvestorHubContent,
   InvestorHubDocument,
   InvestorHubMetric,
@@ -28,6 +31,7 @@ export function renderInvestorHub(content: InvestorHubContent, activeTabId: Inve
         <section class="priority-stack" aria-label="Resumo prioritário para investidores">
           ${renderRoundSnapshot(content.roundManager)}
           ${renderExecutiveSummary(activeTab, content.metrics)}
+          ${renderBusinessPlan(content.businessPlan)}
           ${renderRoundPipeline(content.roundManager)}
         </section>
         <section class="resource-grid" aria-label="Documentos e governança">
@@ -121,7 +125,7 @@ function renderExecutiveSummary(tab: InvestorHubTab, metrics: InvestorHubMetric[
   return `
     <section class="executive-panel" id="stage-content" tabindex="-1" aria-live="polite">
       <div class="summary-copy">
-        <p class="section-label">${escapeHtml(tab.requiresAuth ? 'Area restrita' : 'Resumo executivo')}</p>
+        <p class="section-label">${escapeHtml(tab.requiresAuth ? 'Área restrita' : 'Resumo executivo')}</p>
         <h2>${escapeHtml(tab.requiresAuth ? tab.title : 'Resumo executivo')}</h2>
         <p>${escapeHtml(tab.summary)}</p>
         ${tab.requiresAuth ? renderProtectedBanner() : ''}
@@ -168,6 +172,58 @@ function renderInvestmentNote(title: string): string {
         <span>Escalavel, defensavel e com impacto real.</span>
       </div>
     </div>
+  `;
+}
+
+function renderBusinessPlan(plan: InvestorHubBusinessPlan): string {
+  return `
+    <section class="business-plan-panel" aria-label="${escapeHtml(plan.title)}">
+      <div class="business-plan-copy">
+        <p class="section-label">Business Plan</p>
+        <h2>${escapeHtml(plan.title)}</h2>
+        <p>${escapeHtml(plan.summary)}</p>
+      </div>
+      <div class="business-plan-grid">
+        <div class="plan-highlight-list">
+          ${plan.publicHighlights.map((highlight) => renderPlanHighlight(highlight, false)).join('')}
+        </div>
+        <aside class="protected-insights" aria-label="Informações protegidas do Business Plan">
+          <div class="protected-heading">
+            ${icon('lock')}
+            <div>
+              <strong>Dados financeiros e jurídicos protegidos</strong>
+              <span>O cadeado fica no data room e nos blocos que exigem investidor qualificado.</span>
+            </div>
+          </div>
+          ${plan.protectedHighlights.map((highlight) => renderPlanHighlight(highlight, true)).join('')}
+        </aside>
+      </div>
+      <ol class="plan-roadmap" aria-label="Cronograma revisado do Business Plan">
+        ${plan.milestones.map(renderPlanMilestone).join('')}
+      </ol>
+    </section>
+  `;
+}
+
+function renderPlanHighlight(highlight: InvestorHubBusinessPlanHighlight, locked: boolean): string {
+  return `
+    <article class="plan-highlight ${locked ? 'locked' : ''}">
+      <span>${locked ? icon('lock') : escapeHtml(highlight.label)}</span>
+      <div>
+        <strong>${escapeHtml(highlight.title)}</strong>
+        <p>${escapeHtml(highlight.detail)}</p>
+      </div>
+    </article>
+  `;
+}
+
+function renderPlanMilestone(milestone: InvestorHubBusinessPlanMilestone): string {
+  return `
+    <li>
+      <span>${escapeHtml(milestone.period)}</span>
+      <strong>${escapeHtml(milestone.title)}</strong>
+      <small>${escapeHtml(milestone.description)}</small>
+    </li>
   `;
 }
 
@@ -220,7 +276,7 @@ function renderRoundSnapshot(roundManager: InvestorRoundManager): string {
           <span>${escapeHtml(currentRound.instrument)}</span>
         </div>
         <div>
-          <strong>Valuation</strong>
+          <strong>Base legal</strong>
           <span>${escapeHtml(currentRound.valuationModel)}</span>
         </div>
         <div>
@@ -388,7 +444,7 @@ function renderDocument(document: InvestorHubDocument): string {
     <div class="document-row ${locked ? 'locked' : ''}" role="row">
       <span>${icon(locked ? 'lock' : 'file')}<strong>${escapeHtml(document.title)}</strong></span>
       <span>${escapeHtml(document.type)}</span>
-      <span>${locked ? '-' : '24/04/2025'}</span>
+      <span>${locked ? 'Sob convite' : '24/04/2025'}</span>
       <span>${escapeHtml(access)}</span>
     </div>
   `;

@@ -71,6 +71,26 @@ export type InvestorRoundManager = {
   governance: string[];
 };
 
+export type InvestorHubBusinessPlanHighlight = {
+  label: string;
+  title: string;
+  detail: string;
+};
+
+export type InvestorHubBusinessPlanMilestone = {
+  period: string;
+  title: string;
+  description: string;
+};
+
+export type InvestorHubBusinessPlan = {
+  title: string;
+  summary: string;
+  publicHighlights: InvestorHubBusinessPlanHighlight[];
+  protectedHighlights: InvestorHubBusinessPlanHighlight[];
+  milestones: InvestorHubBusinessPlanMilestone[];
+};
+
 export type InvestorHubSection = {
   eyebrow: string;
   title: string;
@@ -100,5 +120,6 @@ export type InvestorHubContent = {
   tabs: InvestorHubTab[];
   documents: InvestorHubDocument[];
   timeline: InvestorHubTimelineItem[];
+  businessPlan: InvestorHubBusinessPlan;
   roundManager: InvestorRoundManager;
 };
