@@ -18,6 +18,14 @@ describe('renderInvestorHub', () => {
     expect(html).toContain('data-tab-id="preInvestment" aria-selected="false"');
   });
 
+  it('links tab controls to the objective content section', () => {
+    const html = renderInvestorHub(investorHubContent, 'negotiation');
+
+    expect(html).toContain('aria-controls="stage-content"');
+    expect(html).toContain('id="stage-content"');
+    expect(html).toContain('tabindex="-1"');
+  });
+
   it('shows protected state for auth-only tabs', () => {
     const html = renderInvestorHub(investorHubContent, 'postInvestment');
 

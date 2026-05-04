@@ -11,6 +11,7 @@ if (!root) {
 
 const appRoot = root;
 let activeTabId: InvestorHubTabId = 'preInvestment';
+const stageContentId = 'stage-content';
 
 function render(): void {
   appRoot.innerHTML = renderInvestorHub(investorHubContent, activeTabId);
@@ -24,14 +25,26 @@ function bindTabButtons(): void {
     button.addEventListener('click', () => {
       const nextTabId = button.dataset.tabId as InvestorHubTabId | undefined;
 
-      if (!nextTabId || nextTabId === activeTabId) {
+      if (!nextTabId) {
         return;
       }
 
       activeTabId = nextTabId;
       render();
+      focusSelectedStage();
     });
   });
+}
+
+function focusSelectedStage(): void {
+  const target = document.getElementById(stageContentId);
+
+  if (!target) {
+    return;
+  }
+
+  target.scrollIntoView({ block: 'start', behavior: 'auto' });
+  target.focus({ preventScroll: true });
 }
 
 render();

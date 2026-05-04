@@ -286,6 +286,11 @@ button {
   border: 1px solid var(--line);
   padding: 34px 36px 30px;
   background: #fff;
+  scroll-margin-top: 18px;
+}
+
+.executive-panel:focus {
+  outline: 0;
 }
 
 .summary-copy {

@@ -67,7 +67,7 @@ function renderTopbar(content: InvestorHubContent, activeTabId: InvestorHubTabId
 
 function renderNavTab(id: InvestorHubTabId, label: string, activeTabId: InvestorHubTabId): string {
   const isActive = id === activeTabId;
-  return `<button class="nav-tab ${isActive ? 'active' : ''}" type="button" data-tab-id="${id}" aria-selected="${isActive ? 'true' : 'false'}">${escapeHtml(label)}</button>`;
+  return `<button class="nav-tab ${isActive ? 'active' : ''}" type="button" data-tab-id="${id}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="stage-content">${escapeHtml(label)}</button>`;
 }
 
 function renderHero(content: InvestorHubContent): string {
@@ -86,7 +86,7 @@ function renderTabs(tabs: InvestorHubTab[], activeTabId: InvestorHubTabId): stri
         .map((tab) => {
           const isActive = tab.id === activeTabId;
           return `
-            <button class="stage-tab ${isActive ? 'active' : ''}" type="button" data-tab-id="${tab.id}" aria-selected="${isActive ? 'true' : 'false'}">
+            <button class="stage-tab ${isActive ? 'active' : ''}" type="button" data-tab-id="${tab.id}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="stage-content">
               ${icon(tab.requiresAuth ? 'lock' : 'document')}
               <span>
                 <strong>${escapeHtml(tab.label)}</strong>
@@ -105,7 +105,7 @@ function renderExecutiveSummary(tab: InvestorHubTab, metrics: InvestorHubMetric[
   const secondarySection = tab.sections[1];
 
   return `
-    <section class="executive-panel" aria-live="polite">
+    <section class="executive-panel" id="stage-content" tabindex="-1" aria-live="polite">
       <div class="summary-copy">
         <p class="section-label">${escapeHtml(tab.requiresAuth ? 'Area restrita' : 'Resumo executivo')}</p>
         <h2>${escapeHtml(tab.requiresAuth ? tab.title : 'Resumo executivo')}</h2>
