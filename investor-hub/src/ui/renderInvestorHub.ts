@@ -22,20 +22,19 @@ export function renderInvestorHub(content: InvestorHubContent, activeTabId: Inve
   return `
     <main class="portal-shell">
       ${renderTopbar(content, activeTab.id)}
-      <section class="memo-grid">
-        <section class="memo-main">
-          ${renderHero(content)}
-          ${renderTabs(content.tabs, activeTab.id)}
-          ${renderExecutiveSummary(activeTab, content.metrics)}
+      <section class="page-shell">
+        ${renderHero(content)}
+        ${renderTabs(content.tabs, activeTab.id)}
+        <section class="priority-stack" aria-label="Resumo prioritário para investidores">
           ${renderRoundSnapshot(content.roundManager)}
-        </section>
-        <aside class="memo-side">
-          ${renderActionRail()}
+          ${renderExecutiveSummary(activeTab, content.metrics)}
           ${renderRoundPipeline(content.roundManager)}
+        </section>
+        <section class="resource-grid" aria-label="Documentos e governança">
           ${renderDocuments(content.documents)}
           ${renderAccessLevels(content.roundManager.accessLevels)}
           ${renderTimeline(content.timeline)}
-        </aside>
+        </section>
       </section>
       ${renderFooter()}
     </main>

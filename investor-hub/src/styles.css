@@ -182,53 +182,45 @@ button {
   background: var(--orange-dark);
 }
 
-.memo-grid {
-  flex: 1;
-  display: grid;
-  grid-template-columns: minmax(0, 1.03fr) minmax(460px, .97fr);
-  border-bottom: 1px solid var(--line);
-}
-
-.memo-main,
-.memo-side {
-  padding: 32px 30px 28px;
-}
-
-.memo-main {
-  border-right: 1px solid var(--line);
+.page-shell {
+  width: min(100%, 1320px);
+  margin: 0 auto;
+  padding: 38px 32px 52px;
 }
 
 .memo-hero {
-  min-height: 236px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-right: 36px;
+  display: grid;
+  grid-template-columns: minmax(0, .95fr) minmax(360px, .62fr);
+  gap: 72px;
+  align-items: end;
+  min-height: 258px;
+  padding: 18px 0 40px;
+  border-bottom: 1px solid var(--line);
 }
 
 .memo-hero h1 {
   color: var(--navy);
-  font-size: clamp(44px, 5.2vw, 72px);
+  font-size: clamp(52px, 6vw, 86px);
   line-height: .98;
   letter-spacing: 0;
-  margin: 0 0 22px;
+  margin: 0;
   font-weight: 900;
-  max-width: 680px;
+  max-width: 760px;
 }
 
 .memo-hero p {
   color: var(--muted);
-  font-size: 18px;
+  font-size: 19px;
   line-height: 1.55;
   margin: 0;
-  max-width: 650px;
+  max-width: 500px;
 }
 
 .stage-tabs {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   border: 1px solid var(--line);
-  margin-top: 20px;
+  margin-top: 30px;
 }
 
 .stage-tab {
@@ -284,10 +276,16 @@ button {
   margin-top: 4px;
 }
 
+.priority-stack {
+  display: grid;
+  gap: 28px;
+  margin-top: 28px;
+}
+
 .executive-panel {
   border: 1px solid var(--line);
-  border-top: 0;
-  padding: 30px 28px 22px;
+  padding: 34px 36px 30px;
+  background: #fff;
 }
 
 .summary-copy {
@@ -418,8 +416,7 @@ button {
 
 .round-panel {
   border: 1px solid var(--line);
-  border-top: 0;
-  padding: 28px;
+  padding: 36px;
   background: #fff;
 }
 
@@ -438,14 +435,14 @@ button {
 
 .round-heading h2 {
   color: var(--navy);
-  font-size: 28px;
+  font-size: 34px;
   line-height: 1.1;
   margin: 0 0 12px;
 }
 
 .round-heading p:not(.section-label) {
   color: var(--muted);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.55;
   margin: 0;
   max-width: 620px;
@@ -549,10 +546,20 @@ button {
   color: var(--orange);
 }
 
-.memo-side {
+.resource-grid {
   display: grid;
-  gap: 10px;
-  align-content: start;
+  grid-template-columns: minmax(0, 1.35fr) minmax(340px, .65fr);
+  gap: 28px;
+  margin-top: 28px;
+  min-width: 0;
+}
+
+.resource-grid > * {
+  min-width: 0;
+}
+
+.resource-grid .data-panel {
+  grid-row: span 2;
 }
 
 .action-rail,
@@ -562,6 +569,7 @@ button {
 .journey-panel {
   display: grid;
   gap: 10px;
+  align-content: start;
 }
 
 .analysis-row,
@@ -617,7 +625,7 @@ button {
 .access-panel,
 .journey-panel {
   margin-top: 0;
-  padding: 18px;
+  padding: 24px;
 }
 
 .panel-heading {
@@ -946,20 +954,19 @@ button {
     justify-content: flex-start;
   }
 
-  .memo-grid {
-    grid-template-columns: 1fr;
+  .page-shell {
     max-width: 100vw;
+    padding: 30px 24px 42px;
   }
 
-  .memo-main {
-    border-right: 0;
-    border-bottom: 1px solid var(--line);
+  .memo-hero,
+  .resource-grid {
+    grid-template-columns: 1fr;
   }
 
-  .memo-main,
-  .memo-side {
-    min-width: 0;
-    width: 100%;
+  .memo-hero {
+    gap: 24px;
+    align-items: start;
   }
 }
 
@@ -998,14 +1005,13 @@ button {
     font-size: 13px;
   }
 
-  .memo-main,
-  .memo-side {
-    padding: 22px 16px;
+  .page-shell {
+    padding: 22px 16px 34px;
   }
 
   .memo-hero {
     min-height: auto;
-    padding: 18px 0 24px;
+    padding: 18px 0 26px;
   }
 
   .memo-hero h1 {
@@ -1100,8 +1106,14 @@ button {
     padding: 12px 0;
   }
 
-  .panel-heading h2 {
-    white-space: nowrap;
+  .panel-heading {
+    align-items: flex-start;
+  }
+
+  .panel-heading a {
+    white-space: normal;
+    justify-content: flex-end;
+    text-align: right;
   }
 
   .investor-row {

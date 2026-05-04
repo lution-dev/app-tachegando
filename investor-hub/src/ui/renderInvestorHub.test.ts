@@ -34,6 +34,12 @@ describe('renderInvestorHub', () => {
     expect(html).toContain(investorHubContent.roundManager.currentRound.committedAmount);
   });
 
+  it('prioritizes round management before the selected stage content', () => {
+    const html = renderInvestorHub(investorHubContent, 'preInvestment');
+
+    expect(html.indexOf('Gestão da rodada')).toBeLessThan(html.indexOf('Resumo executivo'));
+  });
+
   it('renders investor pipeline stages and tracked investors', () => {
     const html = renderInvestorHub(investorHubContent, 'negotiation');
 
