@@ -149,7 +149,7 @@ a:focus-visible {
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(320px, .96fr);
   gap: 22px;
-  align-items: stretch;
+  align-items: start;
 }
 
 .hero-panel,
