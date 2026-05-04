@@ -27,6 +27,50 @@ export type InvestorHubTimelineItem = {
   status: 'done' | 'current' | 'locked';
 };
 
+export type InvestorRoundStageStatus = 'done' | 'current' | 'next' | 'blocked';
+
+export type InvestorRound = {
+  name: string;
+  status: string;
+  targetAmount: string;
+  committedAmount: string;
+  softCommitments: string;
+  instrument: string;
+  valuationModel: string;
+  closingTarget: string;
+  owner: string;
+};
+
+export type InvestorRoundStage = {
+  label: string;
+  count: number;
+  amount: string;
+  status: InvestorRoundStageStatus;
+};
+
+export type InvestorRoundTrackedInvestor = {
+  name: string;
+  profile: string;
+  stage: string;
+  ticket: string;
+  lastTouch: string;
+  nextStep: string;
+};
+
+export type InvestorRoundAccessLevel = {
+  label: string;
+  audience: string;
+  documents: string[];
+};
+
+export type InvestorRoundManager = {
+  currentRound: InvestorRound;
+  stages: InvestorRoundStage[];
+  trackedInvestors: InvestorRoundTrackedInvestor[];
+  accessLevels: InvestorRoundAccessLevel[];
+  governance: string[];
+};
+
 export type InvestorHubSection = {
   eyebrow: string;
   title: string;
@@ -56,4 +100,5 @@ export type InvestorHubContent = {
   tabs: InvestorHubTab[];
   documents: InvestorHubDocument[];
   timeline: InvestorHubTimelineItem[];
+  roundManager: InvestorRoundManager;
 };

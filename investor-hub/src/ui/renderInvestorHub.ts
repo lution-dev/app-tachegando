@@ -2,6 +2,10 @@ import type {
   InvestorHubContent,
   InvestorHubDocument,
   InvestorHubMetric,
+  InvestorRoundAccessLevel,
+  InvestorRoundManager,
+  InvestorRoundStage,
+  InvestorRoundTrackedInvestor,
   InvestorHubTab,
   InvestorHubTabId,
   InvestorHubTimelineItem,
@@ -23,10 +27,13 @@ export function renderInvestorHub(content: InvestorHubContent, activeTabId: Inve
           ${renderHero(content)}
           ${renderTabs(content.tabs, activeTab.id)}
           ${renderExecutiveSummary(activeTab, content.metrics)}
+          ${renderRoundSnapshot(content.roundManager)}
         </section>
         <aside class="memo-side">
           ${renderActionRail()}
+          ${renderRoundPipeline(content.roundManager)}
           ${renderDocuments(content.documents)}
+          ${renderAccessLevels(content.roundManager.accessLevels)}
           ${renderTimeline(content.timeline)}
         </aside>
       </section>
@@ -160,6 +167,136 @@ function renderProtectedBanner(): string {
         <span>Na V1, este conteúdo aparece como preview. A versão seguinte conecta login por convite.</span>
       </div>
     </div>
+  `;
+}
+
+function renderRoundSnapshot(roundManager: InvestorRoundManager): string {
+  const { currentRound, governance } = roundManager;
+
+  return `
+    <section class="round-panel" aria-label="Gestão da rodada">
+      <div class="round-heading">
+        <div>
+          <p class="section-label">Gestão da rodada</p>
+          <h2>${escapeHtml(currentRound.name)}</h2>
+          <p>Controle de captação, compromissos, documentos liberados e próximos passos para a rodada atual.</p>
+        </div>
+        <span>${escapeHtml(currentRound.status)}</span>
+      </div>
+      <dl class="round-ledger">
+        <div>
+          <dt>Meta</dt>
+          <dd>${escapeHtml(currentRound.targetAmount)}</dd>
+        </div>
+        <div>
+          <dt>Comprometido</dt>
+          <dd>${escapeHtml(currentRound.committedAmount)}</dd>
+        </div>
+        <div>
+          <dt>Soft commits</dt>
+          <dd>${escapeHtml(currentRound.softCommitments)}</dd>
+        </div>
+        <div>
+          <dt>Fechamento alvo</dt>
+          <dd>${escapeHtml(currentRound.closingTarget)}</dd>
+        </div>
+      </dl>
+      <div class="round-terms">
+        <div>
+          <strong>Instrumento</strong>
+          <span>${escapeHtml(currentRound.instrument)}</span>
+        </div>
+        <div>
+          <strong>Valuation</strong>
+          <span>${escapeHtml(currentRound.valuationModel)}</span>
+        </div>
+        <div>
+          <strong>Responsável</strong>
+          <span>${escapeHtml(currentRound.owner)}</span>
+        </div>
+      </div>
+      <ul class="governance-list">
+        ${governance.map((item) => `<li>${icon('shield')}<span>${escapeHtml(item)}</span></li>`).join('')}
+      </ul>
+    </section>
+  `;
+}
+
+function renderRoundPipeline(roundManager: InvestorRoundManager): string {
+  return `
+    <section class="pipeline-panel">
+      <div class="panel-heading">
+        <div>
+          ${icon('trend')}
+          <h2>Pipeline da rodada</h2>
+        </div>
+      </div>
+      <div class="pipeline-strip" aria-label="Etapas da rodada">
+        ${roundManager.stages.map(renderPipelineStage).join('')}
+      </div>
+      <div class="investor-table" role="table" aria-label="Investidores acompanhados">
+        <div class="investor-row investor-head" role="row">
+          <span>Investidor</span>
+          <span>Etapa</span>
+          <span>Ticket</span>
+          <span>Próximo passo</span>
+        </div>
+        ${roundManager.trackedInvestors.map(renderTrackedInvestor).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderPipelineStage(stage: InvestorRoundStage): string {
+  return `
+    <div class="pipeline-stage ${stage.status}">
+      <strong>${escapeHtml(stage.label)}</strong>
+      <span>${stage.count} investidores</span>
+      <small>${escapeHtml(stage.amount)}</small>
+    </div>
+  `;
+}
+
+function renderTrackedInvestor(investor: InvestorRoundTrackedInvestor): string {
+  return `
+    <div class="investor-row" role="row">
+      <span>
+        <strong>${escapeHtml(investor.name)}</strong>
+        <small>${escapeHtml(investor.profile)}</small>
+      </span>
+      <span>${escapeHtml(investor.stage)}</span>
+      <span>${escapeHtml(investor.ticket)}</span>
+      <span>
+        <strong>${escapeHtml(investor.nextStep)}</strong>
+        <small>${escapeHtml(investor.lastTouch)}</small>
+      </span>
+    </div>
+  `;
+}
+
+function renderAccessLevels(accessLevels: InvestorRoundAccessLevel[]): string {
+  return `
+    <section class="access-panel">
+      <div class="panel-heading">
+        <div>
+          ${icon('lock')}
+          <h2>Níveis de acesso</h2>
+        </div>
+      </div>
+      <div class="access-list">
+        ${accessLevels
+          .map(
+            (level) => `
+              <article>
+                <strong>${escapeHtml(level.label)}</strong>
+                <span>${escapeHtml(level.audience)}</span>
+                <small>${level.documents.map(escapeHtml).join(' · ')}</small>
+              </article>
+            `,
+          )
+          .join('')}
+      </div>
+    </section>
   `;
 }
 

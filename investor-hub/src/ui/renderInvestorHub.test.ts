@@ -24,4 +24,30 @@ describe('renderInvestorHub', () => {
     expect(html).toContain('Acesso restrito');
     expect(html).toContain('Área protegida');
   });
+
+  it('renders the current round management snapshot', () => {
+    const html = renderInvestorHub(investorHubContent, 'preInvestment');
+
+    expect(html).toContain('Gestão da rodada');
+    expect(html).toContain(investorHubContent.roundManager.currentRound.name);
+    expect(html).toContain(investorHubContent.roundManager.currentRound.targetAmount);
+    expect(html).toContain(investorHubContent.roundManager.currentRound.committedAmount);
+  });
+
+  it('renders investor pipeline stages and tracked investors', () => {
+    const html = renderInvestorHub(investorHubContent, 'negotiation');
+
+    expect(html).toContain('Pipeline da rodada');
+    expect(html).toContain('Term sheet');
+    expect(html).toContain('Camila Torres');
+    expect(html).toContain('Próximo passo');
+  });
+
+  it('renders data room access levels for round governance', () => {
+    const html = renderInvestorHub(investorHubContent, 'postInvestment');
+
+    expect(html).toContain('Níveis de acesso');
+    expect(html).toContain('Interessado qualificado');
+    expect(html).toContain('Investidor confirmado');
+  });
 });

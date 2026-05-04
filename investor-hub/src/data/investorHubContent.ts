@@ -160,4 +160,98 @@ export const investorHubContent: InvestorHubContent = {
       requiresAuth: false,
     },
   ],
+  roundManager: {
+    currentRound: {
+      name: 'Rodada Anjo 2026',
+      status: 'Preparação final',
+      targetAmount: 'R$ 1,2 mi',
+      committedAmount: 'R$ 420 mil',
+      softCommitments: 'R$ 310 mil',
+      instrument: 'SAFE / mútuo conversível',
+      valuationModel: 'Cap negociável por tranche',
+      closingTarget: '31/07/2026',
+      owner: 'Gabriel e founding team',
+    },
+    stages: [
+      {
+        label: 'Novo interesse',
+        count: 18,
+        amount: 'R$ 1,8 mi',
+        status: 'done',
+      },
+      {
+        label: 'Reunião marcada',
+        count: 9,
+        amount: 'R$ 920 mil',
+        status: 'current',
+      },
+      {
+        label: 'Due diligence',
+        count: 5,
+        amount: 'R$ 640 mil',
+        status: 'current',
+      },
+      {
+        label: 'Term sheet',
+        count: 2,
+        amount: 'R$ 310 mil',
+        status: 'next',
+      },
+      {
+        label: 'Comprometido',
+        count: 3,
+        amount: 'R$ 420 mil',
+        status: 'done',
+      },
+    ],
+    trackedInvestors: [
+      {
+        name: 'Camila Torres',
+        profile: 'Anjo operador, marketplace local',
+        stage: 'Term sheet',
+        ticket: 'R$ 180 mil',
+        lastTouch: 'Revisão de cap enviada',
+        nextStep: 'Validar cláusulas de informação',
+      },
+      {
+        name: 'Bruno Martins',
+        profile: 'Founder investidor, SaaS B2B',
+        stage: 'Due diligence',
+        ticket: 'R$ 120 mil',
+        lastTouch: 'Acesso ao data room liberado',
+        nextStep: 'Responder perguntas sobre CAC',
+      },
+      {
+        name: 'Ana Paula Neri',
+        profile: 'Smart money, operação urbana',
+        stage: 'Reunião marcada',
+        ticket: 'R$ 90 mil',
+        lastTouch: 'Convite enviado',
+        nextStep: 'Demo do app vendedor',
+      },
+    ],
+    accessLevels: [
+      {
+        label: 'Público',
+        audience: 'Visitantes e indicações iniciais',
+        documents: ['Resumo executivo', 'FAQ do investidor'],
+      },
+      {
+        label: 'Interessado qualificado',
+        audience: 'Investidores com reunião agendada',
+        documents: ['Deck completo', 'Uso do capital', 'Perguntas de diligência'],
+      },
+      {
+        label: 'Investidor confirmado',
+        audience: 'Investidores com compromisso assinado',
+        documents: ['Term sheet', 'Cap table', 'Updates mensais'],
+      },
+    ],
+    governance: [
+      'Atualizar status da rodada toda segunda-feira.',
+      'Registrar próxima ação para cada investidor ativo.',
+      'Liberar documentos por estágio, não por link público.',
+      'Consolidar compromissos assinados antes de comunicar fechamento.',
+    ],
+  },
 };
