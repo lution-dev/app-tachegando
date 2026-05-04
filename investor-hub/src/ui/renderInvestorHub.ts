@@ -67,7 +67,19 @@ function renderTopbar(content: InvestorHubContent, activeTabId: InvestorHubTabId
 
 function renderNavTab(id: InvestorHubTabId, label: string, activeTabId: InvestorHubTabId): string {
   const isActive = id === activeTabId;
-  return `<button class="nav-tab ${isActive ? 'active' : ''}" type="button" data-tab-id="${id}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="stage-content">${escapeHtml(label)}</button>`;
+  const objectiveId = tabObjectiveId(id);
+
+  return `<button class="nav-tab ${isActive ? 'active' : ''}" type="button" data-tab-id="${id}" data-target-id="${objectiveId}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${objectiveId}">${escapeHtml(label)}</button>`;
+}
+
+function tabObjectiveId(id: InvestorHubTabId): string {
+  const objectives: Record<InvestorHubTabId, string> = {
+    preInvestment: 'stage-content',
+    negotiation: 'data-room',
+    postInvestment: 'investor-journey',
+  };
+
+  return objectives[id];
 }
 
 function renderHero(content: InvestorHubContent): string {
@@ -85,8 +97,10 @@ function renderTabs(tabs: InvestorHubTab[], activeTabId: InvestorHubTabId): stri
       ${tabs
         .map((tab) => {
           const isActive = tab.id === activeTabId;
+          const objectiveId = tabObjectiveId(tab.id);
+
           return `
-            <button class="stage-tab ${isActive ? 'active' : ''}" type="button" data-tab-id="${tab.id}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="stage-content">
+            <button class="stage-tab ${isActive ? 'active' : ''}" type="button" data-tab-id="${tab.id}" data-target-id="${objectiveId}" aria-selected="${isActive ? 'true' : 'false'}" aria-controls="${objectiveId}">
               ${icon(tab.requiresAuth ? 'lock' : 'document')}
               <span>
                 <strong>${escapeHtml(tab.label)}</strong>
@@ -343,7 +357,7 @@ function renderActionRail(): string {
 
 function renderDocuments(documents: InvestorHubDocument[]): string {
   return `
-    <section class="data-panel" id="data-room">
+    <section class="data-panel" id="data-room" tabindex="-1">
       <div class="panel-heading">
         <div>
           ${icon('folder')}
@@ -382,7 +396,7 @@ function renderDocument(document: InvestorHubDocument): string {
 
 function renderTimeline(items: InvestorHubTimelineItem[]): string {
   return `
-    <section class="journey-panel">
+    <section class="journey-panel" id="investor-journey" tabindex="-1">
       <div class="panel-heading">
         <div>
           ${icon('flag')}

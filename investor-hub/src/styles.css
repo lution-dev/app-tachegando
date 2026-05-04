@@ -289,7 +289,9 @@ button {
   scroll-margin-top: 18px;
 }
 
-.executive-panel:focus {
+.executive-panel:focus,
+.data-panel:focus,
+.journey-panel:focus {
   outline: 0;
 }
 
@@ -631,6 +633,11 @@ button {
 .journey-panel {
   margin-top: 0;
   padding: 24px;
+}
+
+.data-panel,
+.journey-panel {
+  scroll-margin-top: 18px;
 }
 
 .panel-heading {

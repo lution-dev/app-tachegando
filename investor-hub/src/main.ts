@@ -12,6 +12,11 @@ if (!root) {
 const appRoot = root;
 let activeTabId: InvestorHubTabId = 'preInvestment';
 const stageContentId = 'stage-content';
+const tabObjectiveTargets: Record<InvestorHubTabId, string> = {
+  preInvestment: stageContentId,
+  negotiation: 'data-room',
+  postInvestment: 'investor-journey',
+};
 
 function render(): void {
   appRoot.innerHTML = renderInvestorHub(investorHubContent, activeTabId);
@@ -29,15 +34,17 @@ function bindTabButtons(): void {
         return;
       }
 
+      const targetId = button.dataset.targetId ?? tabObjectiveTargets[nextTabId] ?? stageContentId;
+
       activeTabId = nextTabId;
       render();
-      focusSelectedStage();
+      focusObjective(targetId);
     });
   });
 }
 
-function focusSelectedStage(): void {
-  const target = document.getElementById(stageContentId);
+function focusObjective(targetId: string): void {
+  const target = document.getElementById(targetId);
 
   if (!target) {
     return;

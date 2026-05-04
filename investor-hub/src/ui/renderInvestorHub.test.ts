@@ -14,15 +14,21 @@ describe('renderInvestorHub', () => {
   it('marks the active tab with aria-selected', () => {
     const html = renderInvestorHub(investorHubContent, 'negotiation');
 
-    expect(html).toContain('data-tab-id="negotiation" aria-selected="true"');
-    expect(html).toContain('data-tab-id="preInvestment" aria-selected="false"');
+    expect(html).toContain('data-tab-id="negotiation" data-target-id="data-room" aria-selected="true"');
+    expect(html).toContain(
+      'data-tab-id="preInvestment" data-target-id="stage-content" aria-selected="false"',
+    );
   });
 
-  it('links tab controls to the objective content section', () => {
+  it('links each tab to the objective it represents', () => {
     const html = renderInvestorHub(investorHubContent, 'negotiation');
 
     expect(html).toContain('aria-controls="stage-content"');
+    expect(html).toContain('aria-controls="data-room"');
+    expect(html).toContain('aria-controls="investor-journey"');
     expect(html).toContain('id="stage-content"');
+    expect(html).toContain('id="data-room"');
+    expect(html).toContain('id="investor-journey"');
     expect(html).toContain('tabindex="-1"');
   });
 
