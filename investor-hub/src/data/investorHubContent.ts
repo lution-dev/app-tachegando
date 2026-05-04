@@ -1,12 +1,12 @@
 import type { InvestorHubContent } from '../domain/investorHubTypes';
 
 export const investorHubContent: InvestorHubContent = {
-  hubStatus: 'Rodada em preparacao',
+  hubStatus: 'Rodada em preparação',
   hero: {
     eyebrow: 'Hub para investidores anjo',
     title: 'O mapa vivo da economia itinerante.',
     subtitle:
-      'Uma area apresentavel para investidores acompanharem tese, documentos, negociacao e resultados do Ta Chegando em um unico lugar.',
+      'Uma área apresentável para investidores acompanharem tese, documentos, negociação e resultados do Tá Chegando em um único lugar.',
     ctas: [
       {
         label: 'Tenho interesse',
@@ -22,21 +22,27 @@ export const investorHubContent: InvestorHubContent = {
   },
   metrics: [
     {
-      label: 'Mercado',
-      value: 'local-first',
-      detail: 'Vendedores itinerantes conectados a consumidores proximos.',
+      label: 'Vendedores ativos',
+      value: '+18 mil',
+      detail: 'Base potencial mapeada para validação comercial.',
       tone: 'navy',
     },
     {
-      label: 'Modelo',
-      value: 'SaaS + B2B',
-      detail: 'Assinatura para vendedores e planos de frota.',
+      label: 'Consumidores únicos',
+      value: '+2,6 mi',
+      detail: 'Alcance urbano inicial em praças prioritárias.',
       tone: 'blue',
     },
     {
-      label: 'Uso do capital',
-      value: 'produto',
-      detail: 'Produto, geolocalizacao, aquisicao e operacao inicial.',
+      label: 'Notificações/mês',
+      value: '+410 mil',
+      detail: 'Potencial de recorrência via alertas de proximidade.',
+      tone: 'green',
+    },
+    {
+      label: 'Avaliação média',
+      value: '4,8',
+      detail: 'Experiência validada nos primeiros ciclos de uso.',
       tone: 'gold',
     },
   ],
@@ -54,54 +60,55 @@ export const investorHubContent: InvestorHubContent = {
           eyebrow: 'Oportunidade',
           title: 'A rua tem oferta, demanda e pouca inteligencia de rota.',
           body:
-            'O Ta Chegando conecta vendedores itinerantes a consumidores proximos com mapa, alertas, demanda por regiao e ferramentas para vender melhor.',
+            'O Tá Chegando conecta vendedores itinerantes a consumidores próximos com mapa, alertas, demanda por região e ferramentas para vender melhor.',
           bullets: [
-            'Consumidor encontra vendedores proximos',
-            'Vendedor otimiza rota e recorrencia',
-            'Frotas acompanham operacao em tempo real',
+            'Conectamos vendedores itinerantes a consumidores em tempo real.',
+            'Modelo de assinatura para vendedores e marketplace de alcance.',
+            'Mercado grande, fragmentado e em transformação digital.',
+            'Time com execução comprovada e produto validado.',
           ],
         },
         {
           eyebrow: 'Rodada',
-          title: 'Capital para acelerar produto e validacao comercial.',
+          title: 'Capital para acelerar produto e validação comercial.',
           body:
-            'A rodada anjo financia refinamento do app, dados de demanda, funil de vendedores e preparacao das primeiras frotas.',
-          bullets: ['Produto e geolocalizacao', 'Aquisicao local', 'Operacao e suporte inicial'],
+            'A rodada anjo financia refinamento do app, dados de demanda, funil de vendedores e preparação das primeiras frotas.',
+          bullets: ['Produto e geolocalização', 'Aquisição local', 'Operação e suporte inicial'],
         },
       ],
     },
     {
       id: 'negotiation',
       index: '02',
-      label: 'Negociacao',
+      label: 'Negociação',
       title: 'Data room e due diligence',
       summary:
-        'Documentos, termos, perguntas, agenda e status de negociacao em uma area preparada para convite.',
+        'Documentos, termos, perguntas, agenda e status de negociação em uma área preparada para convite.',
       requiresAuth: true,
       sections: [
         {
           eyebrow: 'Data room',
-          title: 'Documentos sensiveis ficam em area protegida.',
+          title: 'Documentos sensíveis ficam em área protegida.',
           body:
-            'Na V1, mostramos o preview do fluxo. Na evolucao, investidores convidados acessam arquivos e status por permissao.',
-          bullets: ['Deck completo', 'Termos da rodada', 'Perguntas de diligencia'],
+            'Na V1, mostramos o preview do fluxo. Na evolução, investidores convidados acessam arquivos e status por permissão.',
+          bullets: ['Deck completo', 'Termos da rodada', 'Perguntas de diligência'],
         },
       ],
     },
     {
       id: 'postInvestment',
       index: '03',
-      label: 'Pos-aporte',
-      title: 'Prestacao de contas e proximos marcos',
+      label: 'Pós-aporte',
+      title: 'Prestação de contas e próximos marcos',
       summary:
-        'Updates mensais, indicadores, uso do dinheiro, riscos e decisoes que investidores precisam acompanhar.',
+        'Updates mensais, indicadores, uso do dinheiro, riscos e decisões que investidores precisam acompanhar.',
       requiresAuth: true,
       sections: [
         {
-          eyebrow: 'Governanca',
-          title: 'Depois do aporte, o Hub vira cadencia de acompanhamento.',
+          eyebrow: 'Governança',
+          title: 'Depois do aporte, o Hub vira cadência de acompanhamento.',
           body:
-            'A area pos-aporte organiza resultados, aprendizados, proximos marcos e uso do capital investido.',
+            'A área pós-aporte organiza resultados, aprendizados, próximos marcos e uso do capital investido.',
           bullets: ['Updates mensais', 'Indicadores de crescimento', 'Uso do capital por frente'],
         },
       ],
@@ -110,17 +117,17 @@ export const investorHubContent: InvestorHubContent = {
   timeline: [
     {
       label: 'Pitch e tese',
-      description: 'Problema, solucao, mercado, tracao e pedido.',
+      description: 'Problema, solução, mercado, tração e pedido.',
       status: 'current',
     },
     {
       label: 'Due diligence',
-      description: 'Documentos, perguntas, termos e proximas reunioes.',
+      description: 'Documentos, perguntas, termos e próximas reuniões.',
       status: 'locked',
     },
     {
-      label: 'Prestacao de contas',
-      description: 'Metricas, marcos, uso do capital e updates mensais.',
+      label: 'Prestação de contas',
+      description: 'Métricas, marcos, uso do capital e updates mensais.',
       status: 'locked',
     },
   ],
@@ -128,26 +135,26 @@ export const investorHubContent: InvestorHubContent = {
     {
       title: 'Deck da rodada',
       type: 'PDF',
-      description: 'Narrativa completa para reunioes de captacao.',
+      description: 'Narrativa completa para reuniões de captação.',
       href: '#',
       requiresAuth: false,
     },
     {
       title: 'Resumo executivo',
       type: '1P',
-      description: 'One-pager para compartilhamento rapido.',
+      description: 'One-pager para compartilhamento rápido.',
       href: '#',
       requiresAuth: false,
     },
     {
       title: 'Uso do capital',
-      type: '$',
-      description: 'Plano de alocacao por frente de crescimento.',
+      type: 'XLSX',
+      description: 'Plano de alocação por frente de crescimento.',
       requiresAuth: true,
     },
     {
       title: 'FAQ do investidor',
-      type: 'Q',
+      type: 'PDF',
       description: 'Perguntas comuns sobre modelo, risco e mercado.',
       href: '#',
       requiresAuth: false,

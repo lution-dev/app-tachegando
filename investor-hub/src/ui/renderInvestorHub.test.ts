@@ -7,8 +7,8 @@ describe('renderInvestorHub', () => {
     const html = renderInvestorHub(investorHubContent, 'preInvestment');
 
     expect(html).toContain('Antes do aporte');
-    expect(html).toContain('Negociacao');
-    expect(html).toContain('Pos-aporte');
+    expect(html).toContain('Negociação');
+    expect(html).toContain('Pós-aporte');
   });
 
   it('marks the active tab with aria-selected', () => {
@@ -21,7 +21,7 @@ describe('renderInvestorHub', () => {
   it('shows protected state for auth-only tabs', () => {
     const html = renderInvestorHub(investorHubContent, 'postInvestment');
 
-    expect(html).toContain('Acesso por convite');
-    expect(html).toContain('Area protegida');
+    expect(html).toContain('Acesso restrito');
+    expect(html).toContain('Área protegida');
   });
 });
