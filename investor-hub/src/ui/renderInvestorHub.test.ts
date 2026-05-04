@@ -59,7 +59,9 @@ describe('renderInvestorHub', () => {
 
     expect(html).toContain('Pipeline da rodada');
     expect(html).toContain('Term sheet');
-    expect(html).toContain('Camila Torres');
+    expect(html).toContain('C. T.');
+    expect(html).toContain('B. M.');
+    expect(html).toContain('A. P. N.');
     expect(html).toContain('Próximo passo');
   });
 

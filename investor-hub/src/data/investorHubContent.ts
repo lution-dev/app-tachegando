@@ -206,7 +206,7 @@ export const investorHubContent: InvestorHubContent = {
     ],
     trackedInvestors: [
       {
-        name: 'Camila Torres',
+        name: 'C. T.',
         profile: 'Anjo operador, marketplace local',
         stage: 'Term sheet',
         ticket: 'R$ 180 mil',
@@ -214,7 +214,7 @@ export const investorHubContent: InvestorHubContent = {
         nextStep: 'Validar cláusulas de informação',
       },
       {
-        name: 'Bruno Martins',
+        name: 'B. M.',
         profile: 'Founder investidor, SaaS B2B',
         stage: 'Due diligence',
         ticket: 'R$ 120 mil',
@@ -222,7 +222,7 @@ export const investorHubContent: InvestorHubContent = {
         nextStep: 'Responder perguntas sobre CAC',
       },
       {
-        name: 'Ana Paula Neri',
+        name: 'A. P. N.',
         profile: 'Smart money, operação urbana',
         stage: 'Reunião marcada',
         ticket: 'R$ 90 mil',
