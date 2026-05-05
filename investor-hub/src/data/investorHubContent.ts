@@ -48,6 +48,16 @@ export const investorHubContent: InvestorHubContent = {
   ],
   tabs: [
     {
+      id: 'presentation',
+      index: '00',
+      label: 'Apresentação',
+      title: 'Pitch deck interativo',
+      summary:
+        'A narrativa completa do Tá Chegando em slides visuais: problema, solução, mercado, tração, modelo, rodada e próximos passos.',
+      requiresAuth: false,
+      sections: [],
+    },
+    {
       id: 'preInvestment',
       index: '01',
       label: 'Antes do aporte',
@@ -84,7 +94,7 @@ export const investorHubContent: InvestorHubContent = {
       title: 'Data room e due diligence',
       summary:
         'Documentos, termos, perguntas, agenda e status de negociação em uma área preparada para convite.',
-      requiresAuth: true,
+      requiresAuth: false,
       sections: [
         {
           eyebrow: 'Data room',
@@ -102,7 +112,7 @@ export const investorHubContent: InvestorHubContent = {
       title: 'Prestação de contas e próximos marcos',
       summary:
         'Updates mensais, indicadores, uso do dinheiro, riscos e decisões que investidores precisam acompanhar.',
-      requiresAuth: true,
+      requiresAuth: false,
       sections: [
         {
           eyebrow: 'Governança',
@@ -150,25 +160,29 @@ export const investorHubContent: InvestorHubContent = {
       title: 'Business Plan revisado',
       type: 'DOCX',
       description: 'Plano de negócio completo com premissas comerciais, expansão e proposta da rodada.',
-      requiresAuth: true,
+      href: '#',
+      requiresAuth: false,
     },
     {
       title: 'Uso do capital',
       type: 'XLSX',
       description: 'Plano de alocação por frente de crescimento.',
-      requiresAuth: true,
+      href: '#',
+      requiresAuth: false,
     },
     {
       title: 'Premissas financeiras do lançamento',
       type: 'XLSX',
       description: 'Base, assinatura, receita projetada e sensibilidade de conversão.',
-      requiresAuth: true,
+      href: '#',
+      requiresAuth: false,
     },
     {
       title: 'Dados societários e contrato',
       type: 'PDF',
       description: 'Dados da empresa, contrato de investidor-anjo e documentos de diligência legal.',
-      requiresAuth: true,
+      href: '#',
+      requiresAuth: false,
     },
     {
       title: 'FAQ do investidor',
@@ -339,4 +353,131 @@ export const investorHubContent: InvestorHubContent = {
       'Consolidar compromissos assinados antes de comunicar fechamento.',
     ],
   },
+  pitchDeck: [
+    {
+      id: 'cover',
+      theme: 'cover',
+      cssBackground: 'linear-gradient(135deg, #070d2d 0%, #1B2A4A 40%, #ff4f12 100%)',
+      title: 'Tá Chegando',
+      subtitle: 'O mapa vivo da economia itinerante.',
+      bullets: [
+        'Rodada Anjo 2026 — R$ 375 mil',
+        'Contrato de investidor-anjo · LC 182/2021',
+        'Produto pronto · Lançamento imediato',
+      ],
+    },
+    {
+      id: 'problem',
+      theme: 'photo',
+      cssBackground: 'linear-gradient(180deg, rgba(7,13,45,.82) 0%, rgba(7,13,45,.68) 100%), url(/slides/slide-02-problem.png) center/cover',
+      title: 'O problema',
+      subtitle: 'A rua tem oferta, demanda e pouca inteligência de rota.',
+      bullets: [
+        '+18 mil vendedores itinerantes mapeados, sem ferramentas digitais',
+        'Consumidores não sabem quando o vendedor passará na sua rua',
+        'Sem dados de demanda, vendedores perdem tempo e receita',
+        'Mercado fragmentado, analógico e sem solução dominante',
+      ],
+    },
+    {
+      id: 'solution',
+      theme: 'dark',
+      cssBackground: 'linear-gradient(135deg, #070d2d 0%, #0f1a3d 50%, #1a2847 100%)',
+      title: 'A solução',
+      subtitle: 'Conectamos vendedores itinerantes a consumidores em tempo real.',
+      bullets: [
+        'Mapa em tempo real com geolocalização e alertas de proximidade',
+        'Heatmap de demanda para otimizar rotas e aumentar vendas',
+        'Notificações push para consumidores quando o vendedor se aproxima',
+        'Gestão de frotas para donos de múltiplos veículos',
+      ],
+    },
+    {
+      id: 'market',
+      theme: 'photo',
+      cssBackground: 'linear-gradient(180deg, rgba(7,13,45,.78) 0%, rgba(7,13,45,.65) 100%), url(/slides/slide-04-market.png) center/cover',
+      title: 'O mercado',
+      subtitle: 'Mercado grande, fragmentado e em transformação digital.',
+      bullets: [
+        'Brasil: +6 milhões de vendedores ambulantes e itinerantes',
+        'Segmento ignorado por apps de delivery e e-commerce',
+        'Economia de rua movimenta R$ 18 bi/ano no comércio informal urbano',
+        'Expansão natural para LATAM e vendas porta a porta',
+      ],
+      metrics: [
+        { label: 'TAM Brasil', value: 'R$ 18 bi' },
+        { label: 'Vendedores ambulantes', value: '6 mi+' },
+        { label: 'Penetração digital', value: '<2%' },
+      ],
+    },
+    {
+      id: 'traction',
+      theme: 'dark',
+      cssBackground: 'linear-gradient(135deg, #070d2d 0%, #0d1633 60%, #1a1f3d 100%)',
+      title: 'Tração',
+      subtitle: 'Crescimento consistente em vendedores, consumidores e engajamento.',
+      bullets: [
+        'Base potencial mapeada para validação comercial',
+        'Alcance urbano inicial em praças prioritárias',
+        'Potencial de recorrência via alertas de proximidade',
+        'Experiência validada nos primeiros ciclos de uso',
+      ],
+      metrics: [
+        { label: 'Vendedores ativos', value: '+18 mil' },
+        { label: 'Consumidores únicos', value: '+2,6 mi' },
+        { label: 'Notificações/mês', value: '+410 mil' },
+        { label: 'Avaliação média', value: '4,8' },
+      ],
+    },
+    {
+      id: 'model',
+      theme: 'dark',
+      cssBackground: 'linear-gradient(135deg, #070d2d 0%, #111b3a 50%, #0d1633 100%)',
+      title: 'Modelo de negócio',
+      subtitle: 'Assinatura para vendedores + marketplace de alcance.',
+      bullets: [
+        'SaaS: assinatura mensal para vendedores com rotas otimizadas',
+        'Marketplace: alcance premium e destaque por região',
+        'Frotas: gestão B2B para donos de múltiplos veículos',
+        'Dados: inteligência de demanda por bairro e horário',
+      ],
+      metrics: [
+        { label: 'Receita principal', value: 'SaaS + Marketplace' },
+        { label: 'Ticket vendedor', value: 'R$ 49–149/mês' },
+        { label: 'Margem projetada', value: '72%' },
+      ],
+    },
+    {
+      id: 'round',
+      theme: 'accent',
+      cssBackground: 'linear-gradient(135deg, #ff4f12 0%, #df3d00 40%, #1B2A4A 100%)',
+      title: 'Rodada Anjo 2026',
+      subtitle: 'Capital para acelerar produto e validação comercial.',
+      bullets: [
+        'Produto e geolocalização — refinamento do app e dados de demanda',
+        'Aquisição local — funil de vendedores e playbook de campo',
+        'Operação e suporte inicial — primeiras frotas e atendimento',
+      ],
+      metrics: [
+        { label: 'Meta', value: 'R$ 375 mil' },
+        { label: 'Instrumento', value: 'Anjo · LC 182' },
+        { label: 'Soft commits', value: '25 cotas' },
+        { label: 'Fechamento', value: 'Imediato' },
+      ],
+    },
+    {
+      id: 'cta',
+      theme: 'cover',
+      cssBackground: 'linear-gradient(135deg, #1B2A4A 0%, #070d2d 50%, #ff4f12 100%)',
+      title: 'Vamos conversar?',
+      subtitle: 'Entre em contato para agendar uma reunião com os fundadores.',
+      bullets: [
+        'Deck completo e resumo executivo disponíveis',
+        'Data room com documentos de diligência',
+        'Reunião de apresentação em 30 minutos',
+      ],
+      ctaLabel: 'Tenho interesse',
+      ctaHref: 'mailto:fundadores@tachegando.app?subject=Interesse%20em%20investir%20no%20Ta%20Chegando',
+    },
+  ],
 };

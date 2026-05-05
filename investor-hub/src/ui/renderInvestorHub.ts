@@ -12,6 +12,7 @@ import type {
   InvestorHubTab,
   InvestorHubTabId,
   InvestorHubTimelineItem,
+  PitchSlide,
 } from '../domain/investorHubTypes';
 import { escapeHtml, textOrFallback } from '../utils/formatters';
 
@@ -22,12 +23,15 @@ export function renderInvestorHub(content: InvestorHubContent, activeTabId: Inve
     return '<main class="shell"><section class="empty-state">Conteudo indisponivel.</section></main>';
   }
 
+  const isPresentationMode = activeTabId === 'presentation';
+
   return `
     <main class="portal-shell">
       ${renderTopbar(content, activeTab.id)}
       <section class="page-shell">
         ${renderHero(content)}
         ${renderTabs(content.tabs, activeTab.id)}
+        ${isPresentationMode ? renderPitchDeck(content.pitchDeck) : `
         <section class="priority-stack" aria-label="Resumo prioritário para investidores">
           ${renderRoundSnapshot(content.roundManager)}
           ${renderExecutiveSummary(activeTab, content.metrics)}
@@ -39,6 +43,7 @@ export function renderInvestorHub(content: InvestorHubContent, activeTabId: Inve
           ${renderAccessLevels(content.roundManager.accessLevels)}
           ${renderTimeline(content.timeline)}
         </section>
+        `}
       </section>
       ${renderFooter()}
     </main>
@@ -57,6 +62,7 @@ function renderTopbar(content: InvestorHubContent, activeTabId: InvestorHubTabId
         </div>
       </a>
       <div class="topbar-center">
+        ${renderNavTab('presentation', 'Apresentação', activeTabId)}
         ${renderNavTab('preInvestment', 'Antes do aporte', activeTabId)}
         ${renderNavTab('negotiation', 'Negociação', activeTabId)}
         ${renderNavTab('postInvestment', 'Pós-aporte', activeTabId)}
@@ -78,6 +84,7 @@ function renderNavTab(id: InvestorHubTabId, label: string, activeTabId: Investor
 
 function tabObjectiveId(id: InvestorHubTabId): string {
   const objectives: Record<InvestorHubTabId, string> = {
+    presentation: 'pitch-deck',
     preInvestment: 'stage-content',
     negotiation: 'data-room',
     postInvestment: 'investor-journey',
@@ -96,8 +103,11 @@ function renderHero(content: InvestorHubContent): string {
 }
 
 function renderTabs(tabs: InvestorHubTab[], activeTabId: InvestorHubTabId): string {
+  const tabCount = tabs.length;
+  const gridClass = tabCount > 3 ? 'stage-tabs stage-tabs--4' : 'stage-tabs';
+
   return `
-    <nav class="stage-tabs" aria-label="Momentos do investidor">
+    <nav class="${gridClass}" aria-label="Momentos do investidor">
       ${tabs
         .map((tab) => {
           const isActive = tab.id === activeTabId;
@@ -473,6 +483,56 @@ function renderTimeline(items: InvestorHubTimelineItem[]): string {
           .join('')}
       </ol>
     </section>
+  `;
+}
+
+function renderPitchDeck(slides: PitchSlide[]): string {
+  return `
+    <section class="pitch-deck" id="pitch-deck" tabindex="-1" aria-label="Pitch deck interativo">
+      <div class="pitch-slides-track" data-pitch-track>
+        ${slides.map((slide, index) => renderPitchSlide(slide, index, slides.length)).join('')}
+      </div>
+      <nav class="pitch-nav" aria-label="Navegação do pitch deck">
+        <button class="pitch-nav-btn" type="button" data-pitch-prev aria-label="Slide anterior">
+          ${icon('chevron')}
+        </button>
+        <div class="pitch-dots">
+          ${slides.map((slide, i) => `<button class="pitch-dot ${i === 0 ? 'active' : ''}" type="button" data-pitch-goto="${i}" aria-label="Ir para slide ${i + 1}: ${escapeHtml(slide.title)}"></button>`).join('')}
+        </div>
+        <span class="pitch-counter"><span data-pitch-current>1</span> / ${slides.length}</span>
+        <button class="pitch-nav-btn" type="button" data-pitch-next aria-label="Próximo slide">
+          ${icon('chevron')}
+        </button>
+      </nav>
+    </section>
+  `;
+}
+
+function renderPitchSlide(slide: PitchSlide, index: number, total: number): string {
+  const slideIcons: IconName[] = ['target', 'shield', 'trend', 'bars'];
+
+  return `
+    <article class="pitch-slide" style="background: ${slide.cssBackground}" role="group" aria-roledescription="slide" aria-label="Slide ${index + 1} de ${total}: ${escapeHtml(slide.title)}">
+      <p class="pitch-slide-eyebrow">${escapeHtml(slide.id === 'cover' ? 'Investor Hub' : `${String(index + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`)}</p>
+      <h2>${escapeHtml(slide.title)}</h2>
+      <p class="pitch-slide-subtitle">${escapeHtml(slide.subtitle)}</p>
+      <ul class="pitch-slide-bullets">
+        ${slide.bullets.map((bullet, i) => `<li>${icon(slideIcons[i % slideIcons.length])}<span>${escapeHtml(bullet)}</span></li>`).join('')}
+      </ul>
+      ${slide.metrics ? `
+        <div class="pitch-slide-metrics">
+          ${slide.metrics.map(m => `
+            <div class="pitch-metric-card">
+              <span class="pitch-metric-value">${escapeHtml(m.value)}</span>
+              <span class="pitch-metric-label">${escapeHtml(m.label)}</span>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
+      ${slide.ctaLabel && slide.ctaHref ? `
+        <a class="pitch-slide-cta" href="${escapeHtml(slide.ctaHref)}">${escapeHtml(slide.ctaLabel)} ${icon('arrow')}</a>
+      ` : ''}
+    </article>
   `;
 }
 

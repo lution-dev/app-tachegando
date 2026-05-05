@@ -1,4 +1,4 @@
-export type InvestorHubTabId = 'preInvestment' | 'negotiation' | 'postInvestment';
+export type InvestorHubTabId = 'presentation' | 'preInvestment' | 'negotiation' | 'postInvestment';
 
 export type InvestorHubCta = {
   label: string;
@@ -108,6 +108,23 @@ export type InvestorHubTab = {
   sections: InvestorHubSection[];
 };
 
+export type PitchSlideMetric = {
+  label: string;
+  value: string;
+};
+
+export type PitchSlide = {
+  id: string;
+  theme: 'cover' | 'dark' | 'photo' | 'accent';
+  cssBackground: string;
+  title: string;
+  subtitle: string;
+  bullets: string[];
+  metrics?: PitchSlideMetric[];
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
 export type InvestorHubContent = {
   hubStatus: string;
   hero: {
@@ -122,4 +139,5 @@ export type InvestorHubContent = {
   timeline: InvestorHubTimelineItem[];
   businessPlan: InvestorHubBusinessPlan;
   roundManager: InvestorRoundManager;
+  pitchDeck: PitchSlide[];
 };
