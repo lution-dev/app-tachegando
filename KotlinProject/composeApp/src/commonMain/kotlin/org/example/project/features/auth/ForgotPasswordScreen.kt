@@ -24,6 +24,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -32,6 +33,11 @@ import androidx.compose.ui.unit.dp
 import org.example.project.core.navigation.ArrowBackIcon
 import org.example.project.core.navigation.EmailIcon
 import org.example.project.core.theme.AppColors
+import org.example.project.core.data.AuthRepository
+import org.example.project.core.utils.UiState
+import kotlinx.coroutines.launch
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.foundation.layout.size
 
 @OptIn(androidx.compose.material3.ExperimentalMaterial3Api::class)
 @Composable
@@ -40,6 +46,9 @@ fun ForgotPasswordScreen(
 ) {
     var email by remember { mutableStateOf("") }
     var sent by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
 
     Surface(color = MaterialTheme.colorScheme.background) {
         Column(modifier = Modifier.fillMaxSize()) {
@@ -91,15 +100,45 @@ fun ForgotPasswordScreen(
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
                     )
 
+                    if (errorMessage != null) {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = errorMessage!!,
+                            color = MaterialTheme.colorScheme.error,
+                            style = MaterialTheme.typography.bodySmall
+                        )
+                    }
+
                     Spacer(modifier = Modifier.height(24.dp))
 
                     Button(
-                        onClick = { sent = true },
+                        onClick = {
+                            if (email.isBlank()) {
+                                errorMessage = "Informe seu email"
+                                return@Button
+                            }
+                            scope.launch {
+                                isLoading = true
+                                errorMessage = null
+                                val result = AuthRepository.resetPassword(email)
+                                isLoading = false
+                                when (result) {
+                                    is UiState.Success -> sent = true
+                                    is UiState.Error -> errorMessage = result.message
+                                    else -> {}
+                                }
+                            }
+                        },
                         modifier = Modifier.fillMaxWidth().height(50.dp),
                         shape = RoundedCornerShape(12.dp),
-                        colors = ButtonDefaults.buttonColors(containerColor = AppColors.Primary)
+                        colors = ButtonDefaults.buttonColors(containerColor = AppColors.Primary),
+                        enabled = !isLoading
                     ) {
-                        Text("Enviar", style = MaterialTheme.typography.labelLarge)
+                        if (isLoading) {
+                            CircularProgressIndicator(color = androidx.compose.ui.graphics.Color.White, modifier = Modifier.size(24.dp))
+                        } else {
+                            Text("Enviar", style = MaterialTheme.typography.labelLarge)
+                        }
                     }
                 } else {
                     Spacer(modifier = Modifier.height(16.dp))

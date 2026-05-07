@@ -32,7 +32,7 @@ fun VendorDashboardScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Painel do Vendedor") })
+            TopAppBar(title = { Text("Meu trabalho") })
         }
     ) { padding ->
         Column(
@@ -48,7 +48,7 @@ fun VendorDashboardScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    if (isOnline) "Você está ONLINE" else "Você está OFFLINE",
+                    if (isOnline) "Você aparece no mapa" else "Você não aparece no mapa",
                     style = MaterialTheme.typography.titleLarge,
                     color = if (isOnline) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                 )
@@ -57,22 +57,22 @@ fun VendorDashboardScreen(
                     onCheckedChange = { isOnline = it }
                 )
             }
-            
+
             // Stats
             Row(
                 modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                StatCard(title = "Visitas Hoje", value = "12", modifier = Modifier.weight(1f))
-                StatCard(title = "Clientes Próximos", value = "45", modifier = Modifier.weight(1f))
+                StatCard(title = "Visitas hoje", value = "12", modifier = Modifier.weight(1f))
+                StatCard(title = "Clientes perto", value = "45", modifier = Modifier.weight(1f))
             }
-            
+
             Button(
                 onClick = onStartRoute,
                 modifier = Modifier.fillMaxWidth().padding(top = 32.dp),
                 enabled = isOnline
             ) {
-                Text("Iniciar Rota / Compartilhar Localização")
+                Text("Começar minha rota")
             }
         }
     }
@@ -80,13 +80,28 @@ fun VendorDashboardScreen(
 
 @Composable
 fun StatCard(title: String, value: String, modifier: Modifier = Modifier) {
-    Card(modifier = modifier) {
+    androidx.compose.material3.Card(
+        modifier = modifier,
+        colors = androidx.compose.material3.CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        shape = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+        elevation = androidx.compose.material3.CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
         Column(
             modifier = Modifier.padding(16.dp).fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
-            Text(value, style = MaterialTheme.typography.displayMedium)
-            Text(title, style = MaterialTheme.typography.bodyMedium)
+            Text(value, style = MaterialTheme.typography.displayMedium.copy(color = MaterialTheme.colorScheme.primary))
+            androidx.compose.foundation.layout.Spacer(modifier = Modifier.padding(4.dp))
+            Text(
+                title,
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                maxLines = 1,
+                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+            )
         }
     }
 }

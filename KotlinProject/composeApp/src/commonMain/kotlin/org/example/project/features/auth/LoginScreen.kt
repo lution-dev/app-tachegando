@@ -1,5 +1,6 @@
 package org.example.project.features.auth
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,12 +10,15 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -30,7 +34,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import kotlinx.coroutines.launch
+import org.example.project.core.data.AuthRepository
+import org.example.project.core.utils.UiState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -55,16 +64,22 @@ import org.example.project.core.navigation.PersonIcon
 import org.example.project.core.navigation.VisibilityIcon
 import org.example.project.core.navigation.VisibilityOffIcon
 import org.example.project.core.theme.AppColors
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.logo
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun LoginScreen(
-    onLogin: () -> Unit,
+    onLogin: (String) -> Unit,
     onRegisterClick: () -> Unit,
     onForgotPassword: () -> Unit
 ) {
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordVisible by remember { mutableStateOf(false) }
+    var isLoading by remember { mutableStateOf(false) }
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+    val scope = rememberCoroutineScope()
 
     Surface(
         modifier = Modifier.fillMaxSize(),
@@ -73,31 +88,20 @@ fun LoginScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(horizontal = 28.dp),
+                .imePadding()
+                .padding(horizontal = 28.dp)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Spacer(modifier = Modifier.height(60.dp))
 
-            Box(
-                modifier = Modifier
-                    .size(80.dp)
-                    .clip(CircleShape)
-                    .background(
-                        Brush.verticalGradient(
-                            colors = listOf(AppColors.Primary, AppColors.PrimaryDark)
-                        )
-                    ),
-                contentAlignment = Alignment.Center
-            ) {
-                Icon(
-                    imageVector = LocationOnIcon,
-                    contentDescription = null,
-                    tint = Color.White,
-                    modifier = Modifier.size(40.dp)
-                )
-            }
+            Image(
+                painter = painterResource(Res.drawable.logo),
+                contentDescription = "Logo Tá Chegando",
+                modifier = Modifier.size(200.dp)
+            )
 
-            Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = "T\u00e1 Chegando",
@@ -185,6 +189,16 @@ fun LoginScreen(
                 )
             )
 
+            if (errorMessage != null) {
+                Text(
+                    text = errorMessage!!,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 8.dp).fillMaxWidth(),
+                    textAlign = TextAlign.Start
+                )
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
 
             TextButton(
@@ -201,29 +215,56 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(28.dp))
 
             Button(
-                onClick = onLogin,
+                onClick = {
+                    if (email.isBlank() || password.isBlank()) {
+                        errorMessage = "Preencha todos os campos"
+                        return@Button
+                    }
+                    scope.launch {
+                        isLoading = true
+                        errorMessage = null
+                        val result = AuthRepository.signIn(email, password)
+                        when (result) {
+                            is UiState.Success -> {
+                                val role = AuthRepository.resolveCurrentUserRole()
+                                isLoading = false
+                                onLogin(role)
+                            }
+                            is UiState.Error -> {
+                                isLoading = false
+                                errorMessage = result.message
+                            }
+                            else -> {}
+                        }
+                    }
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(54.dp),
                 shape = RoundedCornerShape(14.dp),
                 colors = ButtonDefaults.buttonColors(
                     containerColor = AppColors.Primary
-                )
+                ),
+                enabled = !isLoading
             ) {
-                Text(
-                    "Entrar",
-                    style = MaterialTheme.typography.labelLarge.copy(
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold
+                if (isLoading) {
+                    CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
+                } else {
+                    Text(
+                        "Entrar",
+                        style = MaterialTheme.typography.labelLarge.copy(
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
                     )
-                )
-                Spacer(modifier = Modifier.width(8.dp))
-                Icon(
-                    imageVector = ArrowForwardIcon,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp),
-                    tint = Color.White.copy(alpha = 0.8f)
-                )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(
+                        imageVector = ArrowForwardIcon,
+                        contentDescription = null,
+                        modifier = Modifier.size(18.dp),
+                        tint = Color.White.copy(alpha = 0.8f)
+                    )
+                }
             }
 
             Spacer(modifier = Modifier.height(28.dp))
@@ -259,7 +300,13 @@ fun LoginScreen(
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     buildAnnotatedString {
-                        append("Ainda n\u00e3o tem conta? ")
+                        withStyle(
+                            SpanStyle(
+                                color = AppColors.OnSurfaceVariant
+                            )
+                        ) {
+                            append("Ainda não tem conta? ")
+                        }
                         withStyle(
                             SpanStyle(
                                 fontWeight = FontWeight.Bold,
@@ -273,7 +320,7 @@ fun LoginScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.weight(1f))
+            Spacer(modifier = Modifier.height(40.dp))
 
             Row(
                 modifier = Modifier

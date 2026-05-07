@@ -39,11 +39,9 @@ fun CategoryGridScreen(
     onCategoryClick: (String) -> Unit
 ) {
     val categories = listOf(
-        CategoryItem("Ovos", AppColors.CategoryOrange),
-        CategoryItem("Frutas", AppColors.CategoryPurple),
-        CategoryItem("Padaria", AppColors.CategoryPurple),
-        CategoryItem("Produtos de Limpeza", AppColors.CategoryOrange),
-        CategoryItem("Lanches", AppColors.CategoryOrange),
+        CategoryItem("Comida", AppColors.CategoryOrange),
+        CategoryItem("Hortifruti", AppColors.CategoryPurple),
+        CategoryItem("Bebidas", AppColors.CategoryPurple),
         CategoryItem("Doces", AppColors.CategoryPurple)
     )
 

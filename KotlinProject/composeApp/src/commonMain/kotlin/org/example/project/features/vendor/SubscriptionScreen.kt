@@ -36,7 +36,7 @@ fun SubscriptionScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Sua Assinatura") },
+                title = { Text("Meu plano") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(
@@ -56,10 +56,10 @@ fun SubscriptionScreen(
         ) {
             Card(modifier = Modifier.fillMaxWidth()) {
                 Column(modifier = Modifier.padding(16.dp)) {
-                    Text("Plano Pro", style = MaterialTheme.typography.headlineMedium)
+                    Text("Plano completo", style = MaterialTheme.typography.headlineMedium)
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "Acesso premium para vendedores",
+                        "Mais ferramentas para vender",
                         style = MaterialTheme.typography.headlineSmall,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.padding(vertical = 4.dp)
@@ -70,19 +70,19 @@ fun SubscriptionScreen(
                     Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                         Icon(imageVector = CheckIcon, contentDescription = null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colorScheme.primary)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Mapa de calor de vendas")
+                        Text("Ver onde tem clientes")
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                         Icon(imageVector = CheckIcon, contentDescription = null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colorScheme.primary)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Notifica\u00e7\u00e3o para clientes pr\u00f3ximos")
+                        Text("Avisar clientes por perto")
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
                         Icon(imageVector = CheckIcon, contentDescription = null, modifier = Modifier.size(18.dp), tint = MaterialTheme.colorScheme.primary)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("Organiza\u00e7\u00e3o de rotas")
+                        Text("Criar rotas")
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Row(verticalAlignment = androidx.compose.ui.Alignment.CenterVertically) {
@@ -98,7 +98,7 @@ fun SubscriptionScreen(
                         modifier = Modifier.fillMaxWidth().height(50.dp),
                         shape = RoundedCornerShape(12.dp)
                     ) {
-                        Text("Assinar Agora", fontSize = 15.sp)
+                        Text("Assinar agora", fontSize = 15.sp)
                         Spacer(modifier = Modifier.width(8.dp))
                         Icon(
                             imageVector = ArrowForwardIcon,

@@ -120,10 +120,10 @@ fun RegisterTypeScreen(
             Spacer(modifier = Modifier.height(40.dp))
 
             SelectableTypeCard(
-                title = "Consumidor",
-                subtitle = "Encontrar vendedores e comprar",
+                title = "Cliente",
+                subtitle = "Encontrar profissionais e comprar",
                 icon = ShoppingBagIcon,
-                features = listOf("Buscar vendedores pr\u00f3ximos", "Acompanhar entregas", "Favoritar vendedores"),
+                features = listOf("Encontrar profissionais perto", "Acompanhar no mapa", "Salvar favoritos"),
                 gradientColors = listOf(AppColors.Primary, AppColors.PrimaryDark),
                 isSelected = selected == "consumer",
                 onTap = { selected = "consumer" }
@@ -132,10 +132,10 @@ fun RegisterTypeScreen(
             Spacer(modifier = Modifier.height(16.dp))
 
             SelectableTypeCard(
-                title = "Vendedor",
-                subtitle = "Vender e gerenciar rotas",
+                title = "Profissional",
+                subtitle = "Vender enquanto se desloca",
                 icon = StoreIcon,
-                features = listOf("Mapa de calor de demanda", "Gerenciar rotas", "Notificar clientes"),
+                features = listOf("Ver onde tem clientes", "Criar minhas rotas", "Avisar clientes"),
                 gradientColors = listOf(AppColors.Secondary, AppColors.SecondaryDark),
                 isSelected = selected == "vendor",
                 onTap = { selected = "vendor" }

@@ -25,8 +25,11 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,7 +37,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import kotlinx.coroutines.launch
+import org.example.project.core.data.PurchaseIntentRepository
 import org.example.project.core.data.VendorRepository
+import org.example.project.core.data.Vendor
+import org.example.project.core.utils.UiState
+import org.example.project.core.utils.rememberLocationTracker
 import org.example.project.core.navigation.ArrowBackIcon
 import org.example.project.core.navigation.ArrowForwardIcon
 import org.example.project.core.navigation.LocationOnIcon
@@ -48,13 +56,26 @@ fun VendorProfileScreen(
     onBack: () -> Unit,
     onTrackClick: (String) -> Unit
 ) {
-    val vendor = VendorRepository.getById(vendorId)
+    val uiState by produceState<UiState<Vendor?>>(initialValue = UiState.Loading, vendorId) {
+        val result = VendorRepository.getById(vendorId)
+        value = UiState.Success(result)
+    }
     var isFollowing by remember { mutableStateOf(false) }
+    var isAlertEnabled by remember { mutableStateOf(false) }
+    var isAlertLoading by remember { mutableStateOf(false) }
+    var alertMessage by remember { mutableStateOf<String?>(null) }
+    val locationTracker = rememberLocationTracker()
+    val scope = rememberCoroutineScope()
 
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text(vendor?.name ?: "Vendedor") },
+                title = {
+                    val titleText = if (uiState is UiState.Success) {
+                        (uiState as UiState.Success<Vendor?>).data?.name ?: "Profissional"
+                    } else "Carregando..."
+                    Text(titleText)
+                },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(imageVector = ArrowBackIcon, contentDescription = "Voltar")
@@ -63,19 +84,32 @@ fun VendorProfileScreen(
             )
         }
     ) { padding ->
-        if (vendor == null) {
-            Column(
-                modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Text("Vendedor n\u00e3o encontrado", style = MaterialTheme.typography.titleMedium)
-                Spacer(modifier = Modifier.height(16.dp))
-                OutlinedButton(onClick = onBack) { Text("Voltar") }
+        when (uiState) {
+            is UiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
             }
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize().padding(padding)
-            ) {
+            is UiState.Error -> {
+                Box(modifier = Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+                    Text("Não deu para carregar os dados.")
+                }
+            }
+            is UiState.Success -> {
+                val vendor = (uiState as UiState.Success<Vendor?>).data
+                if (vendor == null) {
+                    Column(
+                        modifier = Modifier.fillMaxSize().padding(padding).padding(16.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text("Profissional não encontrado", style = MaterialTheme.typography.titleMedium)
+                        Spacer(modifier = Modifier.height(16.dp))
+                        OutlinedButton(onClick = onBack) { Text("Voltar") }
+                    }
+                } else {
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize().padding(padding)
+                    ) {
                 item {
                     Column(
                         modifier = Modifier.fillMaxWidth().padding(16.dp),
@@ -118,10 +152,55 @@ fun VendorProfileScreen(
                         }
                         Spacer(modifier = Modifier.height(8.dp))
                         OutlinedButton(
+                            onClick = {
+                                scope.launch {
+                                    isAlertLoading = true
+                                    alertMessage = null
+                                    val currentLocation = locationTracker.getCurrentLocation()
+                                    if (currentLocation == null) {
+                                        alertMessage = "Ative sua localização para receber o aviso."
+                                        isAlertLoading = false
+                                        return@launch
+                                    }
+
+                                    when (val result = PurchaseIntentRepository.createArrivalAlert(vendor.id, currentLocation)) {
+                                        is UiState.Success -> {
+                                            isAlertEnabled = true
+                                            alertMessage = "Aviso ativado. Vamos te avisar quando estiver perto."
+                                        }
+                                        is UiState.Error -> alertMessage = result.message
+                                        UiState.Loading -> {}
+                                    }
+                                    isAlertLoading = false
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                            enabled = !isAlertLoading && !isAlertEnabled
+                        ) {
+                            if (isAlertLoading) {
+                                CircularProgressIndicator(modifier = Modifier.size(18.dp))
+                            } else {
+                                Text(if (isAlertEnabled) "Aviso ativado" else "Me avise quando chegar")
+                            }
+                        }
+                        alertMessage?.let { message ->
+                            Spacer(modifier = Modifier.height(6.dp))
+                            Text(
+                                message,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = if (isAlertEnabled) {
+                                    MaterialTheme.colorScheme.primary
+                                } else {
+                                    MaterialTheme.colorScheme.onSurfaceVariant
+                                }
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(8.dp))
+                        OutlinedButton(
                             onClick = { isFollowing = !isFollowing },
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            Text(if (isFollowing) "Deixar de Seguir" else "Seguir Vendedor")
+                            Text(if (isFollowing) "Parar de seguir" else "Seguir")
                         }
                     }
                 }
@@ -151,6 +230,8 @@ fun VendorProfileScreen(
                 }
                 item { Spacer(modifier = Modifier.height(24.dp)) }
             }
+        }
+        }
         }
     }
 }

@@ -28,7 +28,7 @@ fun VendorSettingsScreen(
 ) {
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Ajustes") })
+            TopAppBar(title = { Text("Minha conta") })
         }
     ) { padding ->
         Column(
@@ -37,7 +37,7 @@ fun VendorSettingsScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            Text("Minha Conta", style = MaterialTheme.typography.titleLarge)
+            Text("Minha conta", style = MaterialTheme.typography.titleLarge)
 
             Spacer(modifier = Modifier.height(16.dp))
 
@@ -45,7 +45,7 @@ fun VendorSettingsScreen(
                 onClick = onEditProducts,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Editar Produtos")
+                Text("Meus produtos")
             }
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -54,7 +54,7 @@ fun VendorSettingsScreen(
                 onClick = onSubscriptionClick,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Plano de Assinatura")
+                Text("Meu plano")
             }
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -70,7 +70,7 @@ fun VendorSettingsScreen(
                     containerColor = MaterialTheme.colorScheme.error
                 )
             ) {
-                Text("Sair da Conta")
+                Text("Sair")
             }
         }
     }

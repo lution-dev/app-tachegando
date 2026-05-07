@@ -4,10 +4,19 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import org.example.project.core.theme.AppColors
+
+private data class BottomNavItem(
+    val title: String,
+    val icon: ImageVector,
+    val route: String,
+)
 
 @Composable
 fun BottomNavBar(
@@ -17,51 +26,49 @@ fun BottomNavBar(
 ) {
     val items = if (isVendor) {
         listOf(
-            NavDestination.VendorDashboard,
-            NavDestination.VendorRoute,
-            NavDestination.VendorHeatmap,
-            NavDestination.VendorSettings
+            BottomNavItem("Início", HomeIcon, NavDestination.VendorDashboard.route),
+            BottomNavItem("Rota", RouteIcon, NavDestination.VendorRoute.route),
+            BottomNavItem("Clientes", HeatmapIcon, NavDestination.VendorHeatmap.route),
+            BottomNavItem("Conta", SettingsIcon, NavDestination.VendorSettings.route),
         )
     } else {
         listOf(
-            NavDestination.ConsumerHome,
-            NavDestination.ConsumerCategories,
-            NavDestination.Notifications,
-            NavDestination.ConsumerProfile
+            BottomNavItem("Mapa", LocationOnIcon, NavDestination.ConsumerHome.route),
+            BottomNavItem("Buscar", SearchIcon, NavDestination.ConsumerCategories.route),
+            BottomNavItem("Avisos", NotificationsIcon, NavDestination.Notifications.route),
+            BottomNavItem("Perfil", PersonIcon, NavDestination.ConsumerProfile.route),
         )
     }
 
-    NavigationBar(modifier = Modifier.fillMaxWidth()) {
-        items.forEach { dest ->
+    NavigationBar(
+        modifier = Modifier.fillMaxWidth(),
+        containerColor = Color.White,
+        contentColor = AppColors.Secondary
+    ) {
+        items.forEach { item ->
+            val isSelected = currentRoute == item.route
             NavigationBarItem(
                 icon = {
                     Icon(
-                        imageVector = destinationIcon(dest.route),
-                        contentDescription = dest.title
+                        imageVector = item.icon,
+                        contentDescription = item.title
                     )
                 },
-                label = { Text(dest.title) },
-                selected = currentRoute == dest.route,
+                label = { Text(item.title) },
+                selected = isSelected,
                 onClick = {
-                    if (currentRoute != dest.route) {
-                        onNavigate(dest.route)
+                    if (!isSelected) {
+                        onNavigate(item.route)
                     }
-                }
+                },
+                colors = NavigationBarItemDefaults.colors(
+                    selectedIconColor = AppColors.Primary,
+                    selectedTextColor = AppColors.Primary,
+                    indicatorColor = AppColors.Primary.copy(alpha = 0.12f),
+                    unselectedIconColor = AppColors.OnSurfaceVariant,
+                    unselectedTextColor = AppColors.OnSurfaceVariant
+                )
             )
         }
-    }
-}
-
-private fun destinationIcon(route: String): ImageVector {
-    return when (route) {
-        NavDestination.ConsumerHome.route -> LocationOnIcon
-        NavDestination.ConsumerCategories.route -> SearchIcon
-        NavDestination.Notifications.route -> NotificationsIcon
-        NavDestination.ConsumerProfile.route -> PersonIcon
-        NavDestination.VendorDashboard.route -> HomeIcon
-        NavDestination.VendorRoute.route -> RouteIcon
-        NavDestination.VendorHeatmap.route -> HeatmapIcon
-        NavDestination.VendorSettings.route -> SettingsIcon
-        else -> HomeIcon
     }
 }

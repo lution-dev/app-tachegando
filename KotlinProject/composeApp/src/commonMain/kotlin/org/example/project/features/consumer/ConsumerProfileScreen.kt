@@ -35,7 +35,7 @@ fun ConsumerProfileScreen(
                 .padding(padding)
                 .padding(16.dp)
         ) {
-            Text("Olá, Consumidor", style = MaterialTheme.typography.headlineMedium)
+            Text("Olá", style = MaterialTheme.typography.headlineMedium)
 
             Spacer(modifier = Modifier.height(32.dp))
 
@@ -43,7 +43,7 @@ fun ConsumerProfileScreen(
                 onClick = onFavoritesClick,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Text("Vendedores Favoritos")
+                Text("Favoritos")
             }
 
             Spacer(modifier = Modifier.height(32.dp))

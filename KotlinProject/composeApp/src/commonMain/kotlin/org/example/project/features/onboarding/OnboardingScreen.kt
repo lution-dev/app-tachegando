@@ -1,5 +1,6 @@
 package org.example.project.features.onboarding
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.foundation.layout.size
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.logo
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 fun OnboardingScreen(
@@ -29,14 +34,22 @@ fun OnboardingScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
+        Image(
+            painter = painterResource(Res.drawable.logo),
+            contentDescription = "Logo Tá Chegando",
+            modifier = Modifier.size(240.dp)
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
         Text(
             text = "Bem-vindo ao Tá Chegando!",
             style = MaterialTheme.typography.headlineLarge,
             textAlign = TextAlign.Center
         )
-        
+
         Spacer(modifier = Modifier.height(32.dp))
-        
+
         ElevatedCard(
             onClick = onLoginClick,
             modifier = Modifier.fillMaxWidth().height(100.dp)
@@ -45,9 +58,9 @@ fun OnboardingScreen(
                 Text("Entrar", style = MaterialTheme.typography.titleLarge)
             }
         }
-        
+
         Spacer(modifier = Modifier.height(16.dp))
-        
+
         ElevatedCard(
             onClick = onRegisterClick,
             modifier = Modifier.fillMaxWidth().height(100.dp)

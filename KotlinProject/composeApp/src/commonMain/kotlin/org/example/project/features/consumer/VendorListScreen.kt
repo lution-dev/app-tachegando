@@ -25,6 +25,8 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.produceState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -32,6 +34,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import org.example.project.core.data.VendorRepository
+import org.example.project.core.data.Vendor
+import org.example.project.core.utils.UiState
+import androidx.compose.material3.CircularProgressIndicator
 import org.example.project.core.navigation.ArrowBackIcon
 import org.example.project.core.navigation.LocationOnIcon
 import org.example.project.core.navigation.PersonIcon
@@ -44,7 +49,10 @@ fun VendorListScreen(
     onBack: () -> Unit,
     onVendorClick: (String) -> Unit
 ) {
-    val vendors = VendorRepository.getByCategory(category)
+    val uiState by produceState<UiState<List<Vendor>>>(initialValue = UiState.Loading, category) {
+        val result = VendorRepository.getByCategory(category)
+        value = UiState.Success(result)
+    }
 
     Scaffold(
         topBar = {
@@ -58,32 +66,47 @@ fun VendorListScreen(
             )
         }
     ) { padding ->
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(padding)
-        ) {
-            Text(
-                "${vendors.size} vendedores encontrados",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
-            )
-
-            LazyColumn(
-                modifier = Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-                contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp)
-            ) {
-                items(vendors, key = { it.id }) { vendor ->
-                    VendorListItemCard(
-                        name = vendor.name,
-                        description = vendor.description,
-                        distance = vendor.distance,
-                        rating = vendor.rating,
-                        isOnline = vendor.isOnline,
-                        onClick = { onVendorClick(vendor.id) }
+        when (uiState) {
+            is UiState.Loading -> {
+                Box(modifier = Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+                    CircularProgressIndicator()
+                }
+            }
+            is UiState.Error -> {
+                Box(modifier = Modifier.fillMaxSize().padding(padding), contentAlignment = Alignment.Center) {
+                    Text("Erro ao carregar.")
+                }
+            }
+            is UiState.Success -> {
+                val vendors = (uiState as UiState.Success<List<Vendor>>).data
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(padding)
+                ) {
+                    Text(
+                        "${vendors.size} vendedores encontrados",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     )
+
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.spacedBy(12.dp),
+                        contentPadding = androidx.compose.foundation.layout.PaddingValues(16.dp)
+                    ) {
+                        items(vendors, key = { it.id }) { vendor ->
+                            VendorListItemCard(
+                                name = vendor.name,
+                                description = vendor.description,
+                                distance = vendor.distance,
+                                rating = vendor.rating,
+                                isOnline = vendor.isOnline,
+                                onClick = { onVendorClick(vendor.id) }
+                            )
+                        }
+                    }
                 }
             }
         }
@@ -139,10 +162,10 @@ private fun VendorListItemCard(
                             modifier = Modifier
                                 .size(8.dp)
                                 .clip(CircleShape)
-                                .background(Color.Black)
+                                .background(org.example.project.core.theme.AppColors.Success)
                         )
                         Spacer(modifier = Modifier.width(4.dp))
-                        Text("Online", style = MaterialTheme.typography.labelSmall, color = Color.Black)
+                        Text("Online", style = MaterialTheme.typography.labelSmall, color = org.example.project.core.theme.AppColors.Success)
                     }
                 }
                 Text(description, style = MaterialTheme.typography.bodySmall, color = MaterialTheme.colorScheme.onSurfaceVariant)

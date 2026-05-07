@@ -104,11 +104,20 @@ fun AppNavigation() {
             }
             composable(NavDestination.Login.route) {
                 LoginScreen(
-                    onLogin = {
-                        scope.launch {
-                            snackbarHostState.showSnackbar("Voc\u00ea est\u00e1 logado como comprador.")
+                    onLogin = { role ->
+                        val isVendor = role == "vendor"
+                        val destination = if (isVendor) {
+                            NavDestination.VendorDashboard.route
+                        } else {
+                            NavDestination.ConsumerHome.route
                         }
-                        navController.navigate(NavDestination.ConsumerHome.route) {
+                        scope.launch {
+                            snackbarHostState.showSnackbar(
+                                if (isVendor) "Você entrou como profissional."
+                                else "Você entrou como cliente."
+                            )
+                        }
+                        navController.navigate(destination) {
                             popUpTo(NavDestination.Login.route) { inclusive = true }
                         }
                     },
@@ -223,9 +232,37 @@ fun AppNavigation() {
             }
             composable(NavDestination.VendorRoute.route) {
                 VendorRouteScreen(
-                    onStopRoute = { navController.navigate(NavDestination.VendorDashboard.route) }
+                    onStopRoute = { navController.navigate(NavDestination.VendorDashboard.route) },
+                    onStartRoute = { navController.navigate("err_config") }
                 )
             }
+
+            composable("err_config") {
+                org.example.project.features.vendor.err.RouteConfigScreen(
+                    onBack = { navController.popBackStack() },
+                    onRouteStarted = { routeId ->
+                        navController.navigate("err_active_route/$routeId") {
+                            popUpTo(NavDestination.VendorDashboard.route) { inclusive = false }
+                        }
+                    }
+                )
+            }
+
+            composable(
+                route = "err_active_route/{routeId}",
+                arguments = listOf(androidx.navigation.navArgument("routeId") { type = androidx.navigation.NavType.StringType })
+            ) { backStackEntry ->
+                val rId = backStackEntry.arguments?.getString("routeId") ?: return@composable
+                org.example.project.features.vendor.err.ActiveRouteScreen(
+                    routeId = rId,
+                    onStopRoute = {
+                        navController.navigate(NavDestination.VendorDashboard.route) {
+                            popUpTo(NavDestination.VendorDashboard.route) { inclusive = true }
+                        }
+                    }
+                )
+            }
+            // ----------------------------------------
             composable(NavDestination.VendorHeatmap.route) {
                 HeatmapScreen()
             }

@@ -1,11 +1,10 @@
 package org.example.project.core.theme
 
-import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
-import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
@@ -14,36 +13,31 @@ private val LightColorScheme = lightColorScheme(
     primary = AppColors.Primary,
     onPrimary = AppColors.OnPrimary,
     primaryContainer = AppColors.PrimaryLight,
+    onPrimaryContainer = AppColors.SecondaryDark,
+    inversePrimary = AppColors.PrimaryLight,
     secondary = AppColors.Secondary,
     onSecondary = AppColors.OnSecondary,
     secondaryContainer = AppColors.SecondaryLight,
+    onSecondaryContainer = AppColors.OnPrimary,
     tertiary = AppColors.Accent,
+    onTertiary = AppColors.SecondaryDark,
+    tertiaryContainer = AppColors.AccentLight,
+    onTertiaryContainer = AppColors.SecondaryDark,
     background = AppColors.Background,
     onBackground = AppColors.OnBackground,
     surface = AppColors.Surface,
     onSurface = AppColors.OnSurface,
     surfaceVariant = AppColors.SurfaceVariant,
     onSurfaceVariant = AppColors.OnSurfaceVariant,
+    inverseSurface = AppColors.Secondary,
+    inverseOnSurface = AppColors.OnPrimary,
     error = AppColors.Error,
+    onError = AppColors.OnPrimary,
+    errorContainer = Color(0xFFFCE4EC),
+    onErrorContainer = Color(0xFF93000A),
     outline = AppColors.Outline,
-)
-
-private val DarkColorScheme = darkColorScheme(
-    primary = AppColors.Primary,
-    onPrimary = AppColors.OnPrimary,
-    primaryContainer = AppColors.PrimaryDark,
-    secondary = AppColors.Secondary,
-    onSecondary = AppColors.OnSecondary,
-    secondaryContainer = AppColors.SecondaryDark,
-    tertiary = AppColors.Accent,
-    background = AppColors.DarkBackground,
-    onBackground = AppColors.DarkOnBackground,
-    surface = AppColors.DarkSurface,
-    onSurface = AppColors.DarkOnSurface,
-    surfaceVariant = AppColors.DarkSurfaceVariant,
-    onSurfaceVariant = AppColors.DarkOnSurfaceVariant,
-    error = AppColors.Error,
-    outline = AppColors.DarkOutline,
+    outlineVariant = Color(0xFFE0E0E0),
+    scrim = Color.Black,
 )
 
 private val AppTypography = Typography(
@@ -106,13 +100,10 @@ private val AppTypography = Typography(
 
 @Composable
 fun AppTheme(
-    darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit,
 ) {
-    val colorScheme = if (darkTheme) DarkColorScheme else LightColorScheme
-
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = LightColorScheme,
         typography = AppTypography,
         content = content,
     )
