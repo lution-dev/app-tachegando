@@ -62,3 +62,7 @@ app.*.map.json
 .gradle/
 local.properties
 **/build/
+
+# Local JDK
+jdk-*/
+*.tar.gz

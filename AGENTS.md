@@ -1,70 +1,74 @@
 # AGENTS.md - Tá Chegando
 
-> Guia para agentes de IA trabalharem neste código Flutter.
+> Guia para agentes de IA trabalharem neste app Kotlin Multiplatform/Compose.
 
 ## Projeto
 
 **Tá Chegando** é uma plataforma de geolocalização em tempo real que conecta vendedores ambulantes/itinerantes a consumidores próximos.
 
 ### Personas
-- **Vendedor:** Usa o app para gerenciar rotas, ver heatmap de demanda, notificar clientes
-- **Consumidor:** Usa o app gratuitamente para encontrar vendedores próximos
+- **Profissional/Vendedor:** Usa o app para gerenciar rotas, ver heatmap de demanda, notificar clientes e compartilhar localização
+- **Consumidor:** Usa o app gratuitamente para encontrar vendedores próximos e ativar intenção/alerta de chegada
 - **Frota:** Dono de múltiplos veículos que gerencia vendedores
 
 ---
 
 ## Build / Lint / Test Commands
 
+Execute os comandos dentro de `KotlinProject/`.
+
 ### Setup
 ```bash
-flutter pub get
-cp .env.example .env
+./gradlew kotlinUpgradeYarnLock
 ```
 
-### Run App
+### Build Android
 ```bash
-flutter run
-flutter run -d chrome
-flutter run -d macos
+./gradlew :composeApp:compileDebugKotlinAndroid
+./gradlew :composeApp:assembleDebug
 ```
 
-### Lint / Analyze
+### Run Web/Wasm
 ```bash
-flutter analyze
-dart fix --dry-run
-dart fix --apply
+./gradlew :composeApp:wasmJsBrowserDevelopmentRun
 ```
 
-### Test Commands
+### Test / Check
 ```bash
-flutter test
-flutter test test/features/
-flutter test --coverage
+./gradlew :composeApp:check
+./gradlew :composeApp:allTests
 ```
 
 ---
 
 ## Architecture
 
-### Clean Architecture - 3 Layers
+### Kotlin Multiplatform + Compose
 
 ```
-lib/
-├── core/
-│   ├── theme/
-│   ├── routing/
-│   ├── utils/
-│   └── constants/
-│
-├── features/
-│   ├── auth/
-│   ├── vendor/
-│   ├── consumer/
-│   ├── map/
-│   ├── notifications/
-│   └── subscription/
-│
-└── main.dart
+KotlinProject/
+├── composeApp/
+│   └── src/
+│       ├── commonMain/kotlin/org/example/project/
+│       │   ├── core/
+│       │   │   ├── data/
+│       │   │   ├── domain/
+│       │   │   ├── navigation/
+│       │   │   ├── theme/
+│       │   │   ├── ui/
+│       │   │   └── utils/
+│       │   ├── features/
+│       │   │   ├── auth/
+│       │   │   ├── consumer/
+│       │   │   ├── notifications/
+│       │   │   ├── onboarding/
+│       │   │   ├── splash/
+│       │   │   └── vendor/
+│       │   └── App.kt
+│       ├── androidMain/
+│       ├── iosMain/
+│       └── wasmJsMain/
+└── iosApp/
 ```
 
 ### Dependency Rule
@@ -72,51 +76,53 @@ lib/
 Presentation → Domain ← Data
 ```
 
+UI Compose fica em `features/`; modelos de regra ficam em `core/domain/`; integrações com Supabase, mapas e localização ficam em `core/data/`, `core/ui/` e `core/utils/`.
+
 ---
 
 ## Key Dependencies
 
 | Package | Purpose |
 |---------|---------|
-| `flutter_riverpod` | State Management |
-| `go_router` | Navigation |
-| `supabase_flutter` | Backend (Auth, DB, Realtime) |
-| `google_maps_flutter` | Maps |
-| `geolocator` | GPS location |
-| `flutter_local_notifications` | Push notifications |
+| `compose-runtime`, `compose-foundation`, `compose-material3` | UI declarativa |
+| `navigation-compose` | Navegação entre telas |
+| `supabase-kt` (`auth-kt`, `postgrest-kt`, `realtime-kt`) | Backend, Auth, DB e Realtime |
+| `ktor-client-*` | HTTP por plataforma |
+| `maps-compose`, `play-services-maps` | Mapas Android |
+| `play-services-location` | GPS Android |
+| `kotlinx-serialization-json` | Serialização de modelos |
 
 ---
 
 ## Code Style
 
 ### Imports Order
-```dart
-// 1. Dart SDK
-import 'dart:async';
+```kotlin
+// 1. Kotlin / standard library
+import kotlin.math.max
 
-// 2. Flutter SDK
-import 'package:flutter/material.dart';
+// 2. AndroidX / Compose
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
 // 3. External packages
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import io.github.jan.supabase.postgrest.postgrest
 
-// 4. Internal package (absolute)
-import 'package:tachegando_app/core/theme/app_theme.dart';
-
-// 5. Relative imports
-import '../models/vendor_model.dart';
+// 4. Internal package
+import org.example.project.core.theme.AppColors
+import org.example.project.core.utils.UiState
 ```
 
 ### Naming Conventions
 
 | Type | Convention | Example |
 |------|------------|---------|
-| Classes | PascalCase | `VendorController`, `VendorModel` |
-| Variables | camelCase | `currentVendor`, `isLoading` |
-| Constants | camelCase | `maxRadius`, `defaultTimeout` |
-| Files | snake_case | `vendor_controller.dart` |
-| Directories | snake_case | `vendor/`, `consumer/` |
-| Private members | _prefix | `_isLoading`, `_handleError` |
+| Classes | PascalCase | `VendorRepository`, `VendorRoute` |
+| Functions/variables | camelCase | `currentVendor`, `isLoading` |
+| Constants | PascalCase or UPPER_SNAKE when appropriate | `AppColors.Primary`, `DEFAULT_TIMEOUT` |
+| Files | PascalCase for screens/classes | `VendorDashboardScreen.kt` |
+| Packages/directories | lowercase | `vendor/`, `consumer/` |
+| Private members | `_` only when needed by Kotlin conventions | `_state` |
 
 ---
 
@@ -124,11 +130,13 @@ import '../models/vendor_model.dart';
 
 | Cor | Hex | Uso |
 |-----|-----|-----|
-| **Primária** | `#FF6B35` | Cor principal |
-| **Secundária** | `#2EC4B6` | Ações secundárias |
+| **Primária (Laranja)** | `#FF6B00` | Cor principal, botões, destaques |
+| **Secundária (Azul Escuro)** | `#1B2A4A` | Textos, ações secundárias |
 | **Destaque** | `#FFD166` | Alertas, notificações |
 | **Sucesso** | `#06D6A0` | Online, ativo |
 | **Erro** | `#EF476F` | Erro, urgente |
+
+> **Nota:** Tema fixo em modo claro. Não há suporte a tema escuro.
 
 ---
 
@@ -171,34 +179,41 @@ Closes EVO-123
 
 ## Error Handling
 
-### Exceptions (Data Layer)
-```dart
-throw ServerException('Error message');
-throw NetworkException('No connection');
+### Data Layer
+```kotlin
+return try {
+    UiState.Success(repositoryCall())
+} catch (e: Exception) {
+    UiState.Error("Mensagem amigável para o usuário.")
+}
 ```
 
-### Failures (Domain/Presentation)
-```dart
-return Left(ServerFailure('Error message'));
-return Right(vendor);
+### Presentation
+```kotlin
+when (uiState) {
+    UiState.Loading -> CircularProgressIndicator()
+    is UiState.Success -> Content(uiState.data)
+    is UiState.Error -> Text(uiState.message)
+}
 ```
 
 ---
 
 ## Common Gotchas
 
-1. **Sempre use `const` constructors** quando possível
-2. **Use `ConsumerWidget` ou `HookConsumerWidget`** para Riverpod
-3. **Nunca chame `ref.read` durante build**
-4. **Check `mounted` após async gaps**
-5. **Dispose controllers** no `dispose()` do widget
-6. **Use `Either<Failure, T>`** para operações async que podem falhar
+1. Use `@Composable` apenas em contexto composable.
+2. Use `remember`, `LaunchedEffect` e `DisposableEffect` com chaves estáveis.
+3. Cancele tracking/observadores em `DisposableEffect`.
+4. Em código multiplataforma, declare contratos em `commonMain` e implemente com `expect/actual` por plataforma.
+5. Evite duplicar modelos no mesmo pacote; `Location` deve ter uma fonte única.
+6. Para Supabase, confira se o filtro usa `vendors.id` ou `vendors.user_id`; eles não são o mesmo identificador.
+7. Não silencie erro de backend sem expor estado útil via `UiState`.
 
 ---
 
 ## Referências
 
+- `KotlinProject/README.md` - Estrutura KMP
+- `KotlinProject/composeApp/build.gradle.kts` - Targets e dependências do app
+- `KotlinProject/gradle/libs.versions.toml` - Versões das dependências
 - `docs/LINEAR.md` - Configuração do Linear
-- `analysis_options.yaml` - Lint rules
-- `pubspec.yaml` - Dependencies
-- `.env.example` - Environment variables template

@@ -17,9 +17,9 @@
 | ID | Título | Descrição |
 |----|--------|-----------|
 | TCH-1 | Definir paleta de cores do app | Primária #FF6B35, Secundária #2EC4B6, Destaque #FFD166, Sucesso #06D6A0, Erro #EF476F |
-| TCH-2 | Criar AppTheme com Material Design 3 | Configurar ThemeData com Material 3 e ColorScheme |
+| TCH-2 | Criar AppTheme com Material Design 3 | Configurar `AppTheme` Compose com Material 3 e ColorScheme |
 | TCH-3 | Criar componentes base reutilizáveis | CustomButton, CustomTextField, LoadingOverlay, ErrorWidget |
-| TCH-4 | Configurar GoRouter com rotas base | Setup inicial: /, /login, /vendor/*, /consumer/* |
+| TCH-4 | Configurar Navigation Compose com rotas base | Setup inicial: splash, login, vendor/*, consumer/* |
 
 ---
 
@@ -71,8 +71,8 @@
 
 | ID | Título | Descrição |
 |----|--------|-----------|
-| TCH-28 | Integrar Google Maps SDK | Configurar Google Maps Flutter para iOS e Android |
-| TCH-29 | Serviço de localização com Geolocator | Implementar serviço de GPS em background |
+| TCH-28 | Integrar Google Maps SDK | Configurar Maps Compose/Google Maps SDK para Android e placeholders multiplataforma |
+| TCH-29 | Serviço de localização multiplataforma | Implementar `LocationTracker` com `expect/actual` por plataforma |
 | TCH-30 | Heatmap de demanda | Visualizar áreas com mais clientes em tempo real |
 | TCH-31 | Tracking em tempo real | Atualizar posição do vendedor via Supabase Realtime |
 | TCH-32 | Calcular distância e ETA | Estimativa de tempo de chegada |

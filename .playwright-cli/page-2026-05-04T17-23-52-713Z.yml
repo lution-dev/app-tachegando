@@ -1,0 +1,284 @@
+- main [ref=e3]:
+  - generic [ref=e4]:
+    - link "Tá Chegando Investor Hub" [ref=e5] [cursor=pointer]:
+      - /url: /
+      - generic [ref=e6]: TC
+      - generic [ref=e8]:
+        - strong [ref=e9]: Tá Chegando
+        - generic [ref=e10]: Investor Hub
+    - generic [ref=e11]:
+      - button "Antes do aporte" [ref=e12] [cursor=pointer]
+      - button "Negociação" [ref=e13] [cursor=pointer]
+      - button "Pós-aporte" [ref=e14] [cursor=pointer]
+    - generic [ref=e15]:
+      - generic [ref=e16]: Rodada em preparação
+      - link "Tenho interesse" [ref=e18] [cursor=pointer]:
+        - /url: mailto:fundadores@tachegando.app?subject=Interesse%20em%20investir%20no%20Ta%20Chegando
+        - text: Tenho interesse
+        - img [ref=e19]
+  - generic [ref=e21]:
+    - generic [ref=e22]:
+      - generic [ref=e23]:
+        - heading "O mapa vivo da economia itinerante." [level=1] [ref=e24]
+        - paragraph [ref=e25]: Uma área apresentável para investidores acompanharem tese, documentos, negociação e resultados do Tá Chegando em um único lugar.
+      - navigation "Momentos do investidor" [ref=e26]:
+        - button "Antes do aporte Público" [ref=e27] [cursor=pointer]:
+          - img [ref=e28]
+          - generic [ref=e31]:
+            - strong [ref=e32]: Antes do aporte
+            - generic [ref=e33]: Público
+        - button "Negociação Acesso restrito" [ref=e34] [cursor=pointer]:
+          - img [ref=e35]
+          - generic [ref=e38]:
+            - strong [ref=e39]: Negociação
+            - generic [ref=e40]: Acesso restrito
+        - button "Pós-aporte Acesso restrito" [ref=e41] [cursor=pointer]:
+          - img [ref=e42]
+          - generic [ref=e45]:
+            - strong [ref=e46]: Pós-aporte
+            - generic [ref=e47]: Acesso restrito
+      - generic [ref=e48]:
+        - generic [ref=e49]:
+          - paragraph [ref=e50]: Resumo executivo
+          - heading "Resumo executivo" [level=2] [ref=e51]
+          - paragraph [ref=e52]: Pitch, tese, mercado, tracao, uso de capital e chamada clara para investidores interessados.
+          - list [ref=e53]:
+            - listitem [ref=e54]:
+              - img [ref=e55]
+              - generic [ref=e58]: Conectamos vendedores itinerantes a consumidores em tempo real.
+            - listitem [ref=e59]:
+              - img [ref=e60]
+              - generic [ref=e65]: Modelo de assinatura para vendedores e marketplace de alcance.
+            - listitem [ref=e66]:
+              - img [ref=e67]
+              - generic [ref=e68]: Mercado grande, fragmentado e em transformação digital.
+            - listitem [ref=e69]:
+              - img [ref=e70]
+              - generic [ref=e74]: Time com execução comprovada e produto validado.
+        - generic [ref=e75]:
+          - generic [ref=e76]:
+            - term [ref=e77]: Vendedores ativos
+            - definition [ref=e78]: +18 mil
+            - generic [ref=e79]: Base potencial mapeada para validação comercial.
+          - generic [ref=e80]:
+            - term [ref=e81]: Consumidores únicos
+            - definition [ref=e82]: +2,6 mi
+            - generic [ref=e83]: Alcance urbano inicial em praças prioritárias.
+          - generic [ref=e84]:
+            - term [ref=e85]: Notificações/mês
+            - definition [ref=e86]: +410 mil
+            - generic [ref=e87]: Potencial de recorrência via alertas de proximidade.
+          - generic [ref=e88]:
+            - term [ref=e89]: Avaliação média
+            - definition [ref=e90]: 4,8
+            - generic [ref=e91]: Experiência validada nos primeiros ciclos de uso.
+        - generic [ref=e92]:
+          - img [ref=e93]
+          - generic [ref=e96]:
+            - strong [ref=e97]: Capital para acelerar produto e validação comercial.
+            - generic [ref=e98]: Escalavel, defensavel e com impacto real.
+      - region "Gestão da rodada" [ref=e99]:
+        - generic [ref=e100]:
+          - generic [ref=e101]:
+            - paragraph [ref=e102]: Gestão da rodada
+            - heading "Rodada Anjo 2026" [level=2] [ref=e103]
+            - paragraph [ref=e104]: Controle de captação, compromissos, documentos liberados e próximos passos para a rodada atual.
+          - generic [ref=e105]: Preparação final
+        - generic [ref=e106]:
+          - generic [ref=e107]:
+            - term [ref=e108]: Meta
+            - definition [ref=e109]: R$ 1,2 mi
+          - generic [ref=e110]:
+            - term [ref=e111]: Comprometido
+            - definition [ref=e112]: R$ 420 mil
+          - generic [ref=e113]:
+            - term [ref=e114]: Soft commits
+            - definition [ref=e115]: R$ 310 mil
+          - generic [ref=e116]:
+            - term [ref=e117]: Fechamento alvo
+            - definition [ref=e118]: 31/07/2026
+        - generic [ref=e119]:
+          - generic [ref=e120]:
+            - strong [ref=e121]: Instrumento
+            - generic [ref=e122]: SAFE / mútuo conversível
+          - generic [ref=e123]:
+            - strong [ref=e124]: Valuation
+            - generic [ref=e125]: Cap negociável por tranche
+          - generic [ref=e126]:
+            - strong [ref=e127]: Responsável
+            - generic [ref=e128]: Gabriel e founding team
+        - list [ref=e129]:
+          - listitem [ref=e130]:
+            - img [ref=e131]
+            - generic [ref=e134]: Atualizar status da rodada toda segunda-feira.
+          - listitem [ref=e135]:
+            - img [ref=e136]
+            - generic [ref=e139]: Registrar próxima ação para cada investidor ativo.
+          - listitem [ref=e140]:
+            - img [ref=e141]
+            - generic [ref=e144]: Liberar documentos por estágio, não por link público.
+          - listitem [ref=e145]:
+            - img [ref=e146]
+            - generic [ref=e149]: Consolidar compromissos assinados antes de comunicar fechamento.
+    - complementary [ref=e150]:
+      - region "Atalhos de analise" [ref=e151]:
+        - article [ref=e152]:
+          - img [ref=e153]
+          - generic [ref=e156]:
+            - heading "Tese" [level=2] [ref=e157]
+            - paragraph [ref=e158]: O Tá Chegando organiza e digitaliza o comércio itinerante.
+          - link "Ver tese completa" [ref=e159] [cursor=pointer]:
+            - /url: "#data-room"
+            - text: Ver tese completa
+            - img [ref=e160]
+        - article [ref=e162]:
+          - img [ref=e163]
+          - generic [ref=e166]:
+            - heading "Tração" [level=2] [ref=e167]
+            - paragraph [ref=e168]: Crescimento consistente em vendedores, consumidores e engajamento.
+          - link "Ver métricas" [ref=e169] [cursor=pointer]:
+            - /url: "#data-room"
+            - text: Ver métricas
+            - img [ref=e170]
+        - article [ref=e172]:
+          - img [ref=e173]
+          - generic [ref=e176]:
+            - heading "Uso do capital" [level=2] [ref=e177]
+            - paragraph [ref=e178]: Onde vamos investir e como cada real será alocado.
+          - link "Ver plano de uso" [ref=e179] [cursor=pointer]:
+            - /url: "#data-room"
+            - text: Ver plano de uso
+            - img [ref=e180]
+      - generic [ref=e182]:
+        - generic [ref=e184]:
+          - img [ref=e185]
+          - heading "Pipeline da rodada" [level=2] [ref=e188]
+        - generic "Etapas da rodada" [ref=e189]:
+          - generic [ref=e190]:
+            - strong [ref=e191]: Novo interesse
+            - generic [ref=e192]: 18 investidores
+            - generic [ref=e193]: R$ 1,8 mi
+          - generic [ref=e194]:
+            - strong [ref=e195]: Reunião marcada
+            - generic [ref=e196]: 9 investidores
+            - generic [ref=e197]: R$ 920 mil
+          - generic [ref=e198]:
+            - strong [ref=e199]: Due diligence
+            - generic [ref=e200]: 5 investidores
+            - generic [ref=e201]: R$ 640 mil
+          - generic [ref=e202]:
+            - strong [ref=e203]: Term sheet
+            - generic [ref=e204]: 2 investidores
+            - generic [ref=e205]: R$ 310 mil
+          - generic [ref=e206]:
+            - strong [ref=e207]: Comprometido
+            - generic [ref=e208]: 3 investidores
+            - generic [ref=e209]: R$ 420 mil
+        - table "Investidores acompanhados" [ref=e210]:
+          - row "Camila Torres Anjo operador, marketplace local Term sheet R$ 180 mil Validar cláusulas de informação Revisão de cap enviada" [ref=e211]:
+            - generic [ref=e212]:
+              - strong [ref=e213]: Camila Torres
+              - generic [ref=e214]: Anjo operador, marketplace local
+            - generic [ref=e215]: Term sheet
+            - generic [ref=e216]: R$ 180 mil
+            - generic [ref=e217]:
+              - strong [ref=e218]: Validar cláusulas de informação
+              - generic [ref=e219]: Revisão de cap enviada
+          - row "Bruno Martins Founder investidor, SaaS B2B Due diligence R$ 120 mil Responder perguntas sobre CAC Acesso ao data room liberado" [ref=e220]:
+            - generic [ref=e221]:
+              - strong [ref=e222]: Bruno Martins
+              - generic [ref=e223]: Founder investidor, SaaS B2B
+            - generic [ref=e224]: Due diligence
+            - generic [ref=e225]: R$ 120 mil
+            - generic [ref=e226]:
+              - strong [ref=e227]: Responder perguntas sobre CAC
+              - generic [ref=e228]: Acesso ao data room liberado
+          - row "Ana Paula Neri Smart money, operação urbana Reunião marcada R$ 90 mil Demo do app vendedor Convite enviado" [ref=e229]:
+            - generic [ref=e230]:
+              - strong [ref=e231]: Ana Paula Neri
+              - generic [ref=e232]: Smart money, operação urbana
+            - generic [ref=e233]: Reunião marcada
+            - generic [ref=e234]: R$ 90 mil
+            - generic [ref=e235]:
+              - strong [ref=e236]: Demo do app vendedor
+              - generic [ref=e237]: Convite enviado
+      - generic [ref=e238]:
+        - generic [ref=e239]:
+          - generic [ref=e240]:
+            - img [ref=e241]
+            - heading "Data room" [level=2] [ref=e243]
+          - link "Ver todos os documentos" [ref=e244] [cursor=pointer]:
+            - /url: "#data-room"
+            - text: Ver todos os documentos
+            - img [ref=e245]
+        - table "Documentos do data room" [ref=e247]:
+          - row "Deck da rodada PDF 24/04/2025 Público" [ref=e248]:
+            - generic [ref=e249]:
+              - img [ref=e250]
+              - strong [ref=e253]: Deck da rodada
+            - generic [ref=e254]: PDF
+            - generic [ref=e255]: 24/04/2025
+            - generic [ref=e256]: Público
+          - row "Resumo executivo 1P 24/04/2025 Público" [ref=e257]:
+            - generic [ref=e258]:
+              - img [ref=e259]
+              - strong [ref=e262]: Resumo executivo
+            - generic [ref=e263]: 1P
+            - generic [ref=e264]: 24/04/2025
+            - generic [ref=e265]: Público
+          - row "Uso do capital XLSX - Restrito" [ref=e266]:
+            - generic [ref=e267]:
+              - img [ref=e268]
+              - strong [ref=e271]: Uso do capital
+            - generic [ref=e272]: XLSX
+            - generic [ref=e273]: "-"
+            - generic [ref=e274]: Restrito
+          - row "FAQ do investidor PDF 24/04/2025 Público" [ref=e275]:
+            - generic [ref=e276]:
+              - img [ref=e277]
+              - strong [ref=e280]: FAQ do investidor
+            - generic [ref=e281]: PDF
+            - generic [ref=e282]: 24/04/2025
+            - generic [ref=e283]: Público
+      - generic [ref=e284]:
+        - generic [ref=e286]:
+          - img [ref=e287]
+          - heading "Níveis de acesso" [level=2] [ref=e290]
+        - generic [ref=e291]:
+          - article [ref=e292]:
+            - strong [ref=e293]: Público
+            - generic [ref=e294]: Visitantes e indicações iniciais
+            - generic [ref=e295]: Resumo executivo · FAQ do investidor
+          - article [ref=e296]:
+            - strong [ref=e297]: Interessado qualificado
+            - generic [ref=e298]: Investidores com reunião agendada
+            - generic [ref=e299]: Deck completo · Uso do capital · Perguntas de diligência
+          - article [ref=e300]:
+            - strong [ref=e301]: Investidor confirmado
+            - generic [ref=e302]: Investidores com compromisso assinado
+            - generic [ref=e303]: Term sheet · Cap table · Updates mensais
+      - generic [ref=e304]:
+        - generic [ref=e306]:
+          - img [ref=e307]
+          - heading "Jornada do investidor" [level=2] [ref=e309]
+        - list [ref=e310]:
+          - listitem [ref=e311]:
+            - generic [ref=e312]: "1"
+            - strong [ref=e313]: Pitch e tese
+            - generic [ref=e314]: Problema, solução, mercado, tração e pedido.
+          - listitem [ref=e315]:
+            - generic [ref=e316]: "2"
+            - strong [ref=e317]: Due diligence
+            - generic [ref=e318]: Documentos, perguntas, termos e próximas reuniões.
+          - listitem [ref=e319]:
+            - generic [ref=e320]: "3"
+            - strong [ref=e321]: Prestação de contas
+            - generic [ref=e322]: Métricas, marcos, uso do capital e updates mensais.
+  - generic [ref=e323]:
+    - generic [ref=e324]: © 2025 Tá Chegando. Todos os direitos reservados.
+    - navigation "Links legais" [ref=e325]:
+      - link "Termos de uso" [ref=e326] [cursor=pointer]:
+        - /url: /
+      - link "Política de privacidade" [ref=e327] [cursor=pointer]:
+        - /url: /
+    - generic [ref=e328]: "Contato: investidores@tachegando.app"

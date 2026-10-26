@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" role="img" aria-label="Mapa de mercado com polos de demanda">
+  <defs>
+    <radialGradient id="heat" cx="70%" cy="42%" r="70%">
+      <stop offset="0" stop-color="#ff6b00"/>
+      <stop offset=".34" stop-color="#1b2a4a"/>
+      <stop offset="1" stop-color="#070d2d"/>
+    </radialGradient>
+    <filter id="blur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="22"/>
+    </filter>
+  </defs>
+  <rect width="1600" height="900" fill="url(#heat)"/>
+  <g opacity=".12" fill="#ffffff">
+    <rect x="96" y="92" width="242" height="154" rx="16"/>
+    <rect x="402" y="126" width="190" height="112" rx="14"/>
+    <rect x="655" y="88" width="300" height="185" rx="18"/>
+    <rect x="1034" y="112" width="236" height="142" rx="16"/>
+    <rect x="1328" y="84" width="176" height="190" rx="14"/>
+    <rect x="160" y="338" width="308" height="176" rx="18"/>
+    <rect x="550" y="370" width="238" height="136" rx="14"/>
+    <rect x="874" y="332" width="286" height="188" rx="18"/>
+    <rect x="1230" y="366" width="258" height="150" rx="16"/>
+    <rect x="88" y="626" width="220" height="140" rx="14"/>
+    <rect x="400" y="604" width="332" height="196" rx="18"/>
+    <rect x="842" y="622" width="232" height="150" rx="16"/>
+    <rect x="1170" y="596" width="300" height="190" rx="18"/>
+  </g>
+  <g opacity=".2" stroke="#ffffff" stroke-width="4">
+    <path d="M0 292h1600M0 560h1600"/>
+    <path d="M370 0v900M810 0v900M1188 0v900"/>
+  </g>
+  <g filter="url(#blur)" opacity=".72">
+    <circle cx="324" cy="432" r="116" fill="#06d6a0"/>
+    <circle cx="750" cy="515" r="150" fill="#ffd166"/>
+    <circle cx="1090" cy="358" r="190" fill="#ff6b00"/>
+    <circle cx="1308" cy="654" r="128" fill="#ef476f"/>
+  </g>
+  <g fill="none" stroke="#ffffff" stroke-width="7" stroke-linecap="round" opacity=".72">
+    <path d="M198 672 C412 520 516 604 694 486 C872 368 1034 310 1262 370"/>
+    <path d="M270 228 C472 310 646 262 804 342 C976 430 1118 580 1422 548"/>
+  </g>
+  <g>
+    <circle cx="324" cy="432" r="28" fill="#06d6a0"/>
+    <circle cx="750" cy="515" r="28" fill="#ffd166"/>
+    <circle cx="1090" cy="358" r="34" fill="#ff6b00"/>
+    <circle cx="1308" cy="654" r="28" fill="#ef476f"/>
+    <circle cx="1422" cy="548" r="20" fill="#ffffff" opacity=".86"/>
+  </g>
+</svg>

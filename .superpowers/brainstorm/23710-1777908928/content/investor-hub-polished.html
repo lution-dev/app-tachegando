@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hub de Investidores - Tá Chegando</title>
+  <style>
+    :root {
+      --orange: #ff6b00;
+      --navy: #1b2a4a;
+      --gold: #ffd166;
+      --green: #06d6a0;
+      --pink: #ef476f;
+      --ink: #101828;
+      --muted: #667085;
+      --line: #e6eaf0;
+      --surface: #ffffff;
+      --soft: #f6f8fb;
+      --soft-orange: #fff3ea;
+      --shadow: 0 18px 60px rgba(16, 24, 40, .10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 8%, rgba(255, 107, 0, .10), transparent 28%),
+        linear-gradient(135deg, #fffaf6 0%, #f7f9fc 42%, #eef6f4 100%);
+      min-height: 100vh;
+      letter-spacing: 0;
+    }
+
+    .shell {
+      width: min(1180px, calc(100vw - 32px));
+      margin: 0 auto;
+      padding: 28px 0 46px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 0;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      color: white;
+      background: linear-gradient(135deg, var(--orange), #ff8e3c);
+      box-shadow: 0 14px 28px rgba(255, 107, 0, .22);
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .brand strong {
+      display: block;
+      font-size: 15px;
+      color: var(--navy);
+    }
+
+    .brand span {
+      display: block;
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .status-pill,
+    .button {
+      height: 40px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0 14px;
+      font-size: 13px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .status-pill {
+      color: #027a48;
+      background: rgba(6, 214, 160, .13);
+      border: 1px solid rgba(6, 214, 160, .32);
+    }
+
+    .button {
+      border: 1px solid var(--line);
+      background: var(--surface);
+      color: var(--navy);
+      box-shadow: 0 8px 20px rgba(16, 24, 40, .05);
+    }
+
+    .button.primary {
+      border: 0;
+      color: white;
+      background: var(--orange);
+      box-shadow: 0 14px 28px rgba(255, 107, 0, .22);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.04fr) minmax(320px, .96fr);
+      gap: 22px;
+      align-items: stretch;
+    }
+
+    .hero-panel,
+    .card {
+      background: rgba(255, 255, 255, .82);
+      border: 1px solid rgba(230, 234, 240, .85);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+    }
+
+    .hero-panel {
+      border-radius: 24px;
+      padding: clamp(24px, 4vw, 42px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 470px;
+    }
+
+    .eyebrow {
+      color: var(--orange);
+      font-size: 12px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      color: var(--navy);
+      font-size: clamp(38px, 6vw, 72px);
+      line-height: .96;
+      letter-spacing: 0;
+      max-width: 760px;
+    }
+
+    .lead {
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 650px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 26px;
+    }
+
+    .tabs {
+      margin-top: 34px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .tab {
+      min-height: 86px;
+      border-radius: 14px;
+      border: 1px solid var(--line);
+      background: #fff;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .tab.active {
+      border-color: rgba(255, 107, 0, .38);
+      background: var(--soft-orange);
+    }
+
+    .tab span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .tab strong {
+      color: var(--navy);
+      font-size: 15px;
+      line-height: 1.2;
+    }
+
+    .insight-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .metric {
+      border-radius: 16px;
+      background: var(--navy);
+      color: white;
+      padding: 18px;
+      min-height: 112px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+    }
+
+    .metric:nth-child(2) {
+      background: #22415c;
+    }
+
+    .metric:nth-child(3) {
+      color: var(--navy);
+      background: var(--gold);
+    }
+
+    .metric span {
+      opacity: .78;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .metric strong {
+      font-size: 28px;
+      letter-spacing: 0;
+    }
+
+    .side {
+      display: grid;
+      gap: 16px;
+    }
+
+    .card {
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .card h2 {
+      margin: 0;
+      color: var(--navy);
+      font-size: 20px;
+      letter-spacing: 0;
+    }
+
+    .card p {
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+      margin: 8px 0 0;
+    }
+
+    .timeline {
+      display: grid;
+      gap: 12px;
+      margin-top: 16px;
+    }
+
+    .step {
+      display: grid;
+      grid-template-columns: 34px 1fr auto;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+    }
+
+    .step-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      color: var(--orange);
+      background: var(--soft-orange);
+      font-weight: 900;
+    }
+
+    .step strong {
+      display: block;
+      color: var(--navy);
+      font-size: 14px;
+    }
+
+    .step small {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .lock {
+      color: var(--pink);
+      font-size: 12px;
+      font-weight: 900;
+      background: rgba(239, 71, 111, .10);
+      padding: 6px 8px;
+      border-radius: 999px;
+    }
+
+    .data-room {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .doc {
+      min-height: 112px;
+      border-radius: 16px;
+      background: #fff;
+      border: 1px solid var(--line);
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .doc span {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      background: var(--soft);
+      display: grid;
+      place-items: center;
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .doc strong {
+      color: var(--navy);
+      font-size: 13px;
+      line-height: 1.25;
+    }
+
+    .footer-band {
+      margin-top: 22px;
+      border-radius: 20px;
+      background: var(--navy);
+      color: white;
+      padding: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .footer-band strong {
+      font-size: 18px;
+    }
+
+    .footer-band span {
+      display: block;
+      color: rgba(255, 255, 255, .68);
+      margin-top: 4px;
+      font-size: 13px;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .data-room {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs,
+      .insight-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-panel {
+        min-height: auto;
+      }
+
+      .footer-band,
+      .topbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .top-actions {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">TC</div>
+        <div>
+          <strong>Tá Chegando</strong>
+          <span>Investor Hub</span>
+        </div>
+      </div>
+      <div class="top-actions">
+        <div class="status-pill">Rodada em preparacao</div>
+        <div class="button">Data room</div>
+        <div class="button primary">Tenho interesse</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-panel">
+        <div>
+          <div class="eyebrow">Hub para investidores anjo</div>
+          <h1>O mapa vivo da economia itinerante.</h1>
+          <p class="lead">
+            Uma area apresentavel para investidores acompanharem tese, documentos, negociacao e resultados do Tá Chegando em um unico lugar.
+          </p>
+          <div class="hero-actions">
+            <div class="button primary">Ver oportunidade</div>
+            <div class="button">Baixar one-pager</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="tabs">
+            <div class="tab active">
+              <span>01</span>
+              <strong>Antes do aporte</strong>
+            </div>
+            <div class="tab">
+              <span>02</span>
+              <strong>Negociacao</strong>
+            </div>
+            <div class="tab">
+              <span>03</span>
+              <strong>Pos-aporte</strong>
+            </div>
+          </div>
+
+          <div class="insight-grid">
+            <div class="metric">
+              <span>Mercado</span>
+              <strong>local-first</strong>
+            </div>
+            <div class="metric">
+              <span>Modelo</span>
+              <strong>SaaS + B2B</strong>
+            </div>
+            <div class="metric">
+              <span>Uso do capital</span>
+              <strong>produto</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <aside class="side">
+        <div class="card">
+          <h2>Jornada do investidor</h2>
+          <p>Cada aba mostra apenas o que faz sentido para o momento atual da conversa.</p>
+          <div class="timeline">
+            <div class="step">
+              <div class="step-icon">1</div>
+              <div>
+                <strong>Pitch e tese</strong>
+                <small>Problema, solucao, mercado, tracao e pedido.</small>
+              </div>
+              <span></span>
+            </div>
+            <div class="step">
+              <div class="step-icon">2</div>
+              <div>
+                <strong>Due diligence</strong>
+                <small>Documentos, perguntas, termos e proximas reunioes.</small>
+              </div>
+              <span class="lock">login</span>
+            </div>
+            <div class="step">
+              <div class="step-icon">3</div>
+              <div>
+                <strong>Prestacao de contas</strong>
+                <small>Metricas, marcos, uso do capital e updates mensais.</small>
+              </div>
+              <span class="lock">login</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2>Data room essencial</h2>
+          <p>Arquivos organizados por contexto, com acesso restrito quando necessario.</p>
+          <div class="data-room">
+            <div class="doc"><span>PDF</span><strong>Deck da rodada</strong></div>
+            <div class="doc"><span>1P</span><strong>Resumo executivo</strong></div>
+            <div class="doc"><span>$</span><strong>Uso do capital</strong></div>
+            <div class="doc"><span>Q</span><strong>FAQ do investidor</strong></div>
+          </div>
+        </div>
+      </aside>
+    </section>
+
+    <section class="footer-band">
+      <div>
+        <strong>Direcao visual sugerida</strong>
+        <span>Clean, moderna, responsiva, com foco em confianca e leitura rapida para investidores.</span>
+      </div>
+      <div class="button primary">Aprovar direcao</div>
+    </section>
+  </main>
+</body>
+</html>
