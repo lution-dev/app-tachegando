@@ -16,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import androidx.savedstate.read
 import kotlinx.coroutines.launch
 import org.example.project.features.auth.ConsumerRegisterScreen
 import org.example.project.features.auth.ForgotPasswordScreen
@@ -172,7 +173,7 @@ fun AppNavigation() {
                 route = NavDestination.ConsumerVendorList.route,
                 arguments = listOf(navArgument("category") { type = NavType.StringType })
             ) { backStackEntry ->
-                val category = backStackEntry.arguments?.getString("category") ?: ""
+                val category = backStackEntry.arguments?.read { getStringOrNull("category") } ?: ""
                 VendorListScreen(
                     category = category,
                     onBack = { navController.popBackStack() },
@@ -185,7 +186,7 @@ fun AppNavigation() {
                 route = NavDestination.ConsumerVendorProfile.route,
                 arguments = listOf(navArgument("vendorId") { type = NavType.StringType })
             ) { backStackEntry ->
-                val vendorId = backStackEntry.arguments?.getString("vendorId") ?: ""
+                val vendorId = backStackEntry.arguments?.read { getStringOrNull("vendorId") } ?: ""
                 VendorProfileScreen(
                     vendorId = vendorId,
                     onBack = { navController.popBackStack() },
@@ -198,7 +199,7 @@ fun AppNavigation() {
                 route = NavDestination.ConsumerVendorTracking.route,
                 arguments = listOf(navArgument("vendorId") { type = NavType.StringType })
             ) { backStackEntry ->
-                val vendorId = backStackEntry.arguments?.getString("vendorId") ?: ""
+                val vendorId = backStackEntry.arguments?.read { getStringOrNull("vendorId") } ?: ""
                 VendorTrackingScreen(
                     vendorId = vendorId,
                     onBack = { navController.popBackStack() },
@@ -252,7 +253,7 @@ fun AppNavigation() {
                 route = "err_active_route/{routeId}",
                 arguments = listOf(androidx.navigation.navArgument("routeId") { type = androidx.navigation.NavType.StringType })
             ) { backStackEntry ->
-                val rId = backStackEntry.arguments?.getString("routeId") ?: return@composable
+                val rId = backStackEntry.arguments?.read { getStringOrNull("routeId") } ?: return@composable
                 org.example.project.features.vendor.err.ActiveRouteScreen(
                     routeId = rId,
                     onStopRoute = {

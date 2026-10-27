@@ -9,12 +9,14 @@ data class Location(val latitude: Double, val longitude: Double)
 object GeoUtils {
     private const val EARTH_RADIUS_KM = 6371.0
 
+    private fun toRadians(degrees: Double): Double = degrees * PI / 180.0
+
     fun calculateDistanceMeters(loc1: Location, loc2: Location): Double {
-        val dLat = Math.toRadians(loc2.latitude - loc1.latitude)
-        val dLon = Math.toRadians(loc2.longitude - loc1.longitude)
+        val dLat = toRadians(loc2.latitude - loc1.latitude)
+        val dLon = toRadians(loc2.longitude - loc1.longitude)
 
         val a = sin(dLat / 2) * sin(dLat / 2) +
-                cos(Math.toRadians(loc1.latitude)) * cos(Math.toRadians(loc2.latitude)) *
+                cos(toRadians(loc1.latitude)) * cos(toRadians(loc2.latitude)) *
                 sin(dLon / 2) * sin(dLon / 2)
 
         val c = 2 * atan2(sqrt(a), sqrt(1 - a))

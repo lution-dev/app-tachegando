@@ -3,6 +3,7 @@ package org.example.project.features.vendor.err
 import org.example.project.core.data.RouteRepository
 import org.example.project.core.domain.models.*
 import org.example.project.core.utils.ClusterEngine
+import kotlin.time.Clock
 
 class ERREngine(
     private val repository: RouteRepository,
@@ -24,7 +25,7 @@ class ERREngine(
 
         val polygon = repository.generateBufferPolygon(waypoints, config.deviationToleranceMeters)
         val route = VendorRoute(
-            id = "temp_${System.currentTimeMillis()}",
+            id = "temp_${Clock.System.now().toEpochMilliseconds()}",
             vendorId = vendorId,
             name = routeName,
             waypoints = waypoints,
