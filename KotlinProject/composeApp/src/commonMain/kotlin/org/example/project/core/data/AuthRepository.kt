@@ -92,7 +92,7 @@ object AuthRepository {
             msg.contains("email not confirmed") || msg.contains("email_not_confirmed") -> "Confirme seu email antes de entrar."
             msg.contains("password should be") -> "A senha é muito fraca (mínimo 6 caracteres)."
             msg.contains("too many requests") || msg.contains("rate_limit") || msg.contains("over_email_send_rate_limit") -> "Você tentou muitas vezes. Aguarde alguns minutos e tente novamente."
-            isNetworkError(e) -> "Sem conexão com a internet."
+            isNetworkError(e) -> "Não foi possível conectar ao servidor. Verifique sua internet ou tente novamente em instantes."
             else -> "Não foi possível concluir a operação. Verifique os dados e tente novamente."
         }
     }
