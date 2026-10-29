@@ -54,7 +54,6 @@ import org.example.project.core.navigation.CheckIcon
 import org.example.project.core.navigation.EmailIcon
 import org.example.project.core.navigation.LockIcon
 import org.example.project.core.navigation.PersonIcon
-import org.example.project.core.navigation.SearchIcon
 import org.example.project.core.navigation.ShoppingBagIcon
 import org.example.project.core.theme.AppColors
 
@@ -308,7 +307,7 @@ fun ConsumerRegisterScreen(
                     CircularProgressIndicator(color = Color.White, modifier = Modifier.size(24.dp))
                 } else {
                     Icon(
-                        imageVector = SearchIcon,
+                        imageVector = CheckIcon,
                         contentDescription = null,
                         modifier = Modifier.size(20.dp),
                         tint = Color.White
