@@ -84,14 +84,32 @@ object AuthRepository {
     }
 
     private fun handleError(e: Exception): String {
+        println("AuthRepository error: ${e::class.simpleName}: ${e.message}")
         val msg = e.message?.lowercase() ?: ""
         return when {
             msg.contains("invalid login credentials") || msg.contains("invalid_credentials") -> "Email ou senha incorretos."
             msg.contains("user already registered") -> "Este email já está cadastrado."
+            msg.contains("email not confirmed") || msg.contains("email_not_confirmed") -> "Confirme seu email antes de entrar."
             msg.contains("password should be") -> "A senha é muito fraca (mínimo 6 caracteres)."
-            msg.contains("network") || msg.contains("timeout") || msg.contains("host") -> "Sem conexão com a internet."
             msg.contains("too many requests") || msg.contains("rate_limit") || msg.contains("over_email_send_rate_limit") -> "Você tentou muitas vezes. Aguarde alguns minutos e tente novamente."
-            else -> "Não foi possível concluir o cadastro. Verifique os dados e tente novamente."
+            isNetworkError(e) -> "Sem conexão com a internet."
+            else -> "Não foi possível concluir a operação. Verifique os dados e tente novamente."
+        }
+    }
+
+    // Só considera falta de internet quando a falha é de transporte, não por texto solto na mensagem.
+    private fun isNetworkError(e: Throwable): Boolean {
+        val names = generateSequence(e) { it.cause }.mapNotNull { it::class.simpleName }
+        return names.any {
+            it in setOf(
+                "UnknownHostException",
+                "ConnectException",
+                "SocketException",
+                "SocketTimeoutException",
+                "NoRouteToHostException",
+                "HttpRequestTimeoutException",
+                "ConnectTimeoutException"
+            )
         }
     }
 }
