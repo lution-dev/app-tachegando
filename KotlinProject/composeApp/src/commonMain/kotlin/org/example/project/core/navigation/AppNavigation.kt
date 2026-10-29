@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.savedstate.read
 import kotlinx.coroutines.launch
+import org.example.project.core.data.DemoMode
 import org.example.project.features.auth.ConsumerRegisterScreen
 import org.example.project.features.auth.ForgotPasswordScreen
 import org.example.project.features.auth.LoginScreen
@@ -100,7 +101,19 @@ fun AppNavigation() {
             composable(NavDestination.Onboarding.route) {
                 OnboardingScreen(
                     onLoginClick = { navController.navigate(NavDestination.Login.route) },
-                    onRegisterClick = { navController.navigate(NavDestination.RegisterType.route) }
+                    onRegisterClick = { navController.navigate(NavDestination.RegisterType.route) },
+                    onDemoConsumerClick = if (DemoMode.isAvailable) {
+                        {
+                            DemoMode.isActive = true
+                            navController.navigate(NavDestination.ConsumerHome.route)
+                        }
+                    } else null,
+                    onDemoVendorClick = if (DemoMode.isAvailable) {
+                        {
+                            DemoMode.isActive = true
+                            navController.navigate(NavDestination.VendorDashboard.route)
+                        }
+                    } else null
                 )
             }
             composable(NavDestination.Login.route) {

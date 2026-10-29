@@ -35,6 +35,7 @@ object VendorRepository {
     val vendors = emptyList<Vendor>()
 
     suspend fun getVendors(): List<Vendor> {
+        if (DemoMode.isActive) return DemoMode.vendors
         return try {
             supabase.postgrest["vendors"].select().decodeList<Vendor>()
         } catch (e: Exception) {
@@ -77,6 +78,10 @@ object VendorRepository {
     // Subscribe to real-time changes
     fun listenToVendors(): Flow<List<Vendor>> {
         return flow {
+            if (DemoMode.isActive) {
+                emit(DemoMode.vendors)
+                return@flow
+            }
             try {
                 // Initial load
                 val initial = getVendors()
@@ -101,6 +106,7 @@ object VendorRepository {
     }
 
     suspend fun getById(id: String): Vendor? {
+        if (DemoMode.isActive) return DemoMode.vendors.firstOrNull { it.id == id }
         return try {
             supabase.postgrest["vendors"].select {
                 filter { eq("id", id) }
@@ -127,6 +133,7 @@ object VendorRepository {
     }
 
     suspend fun getByCategory(category: String): List<Vendor> {
+        if (DemoMode.isActive) return DemoMode.vendors.filter { it.category == category }
         return try {
             supabase.postgrest["vendors"].select {
                 filter { eq("category", category) }
