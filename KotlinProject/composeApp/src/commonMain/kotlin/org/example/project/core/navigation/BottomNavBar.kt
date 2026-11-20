@@ -29,6 +29,7 @@ fun BottomNavBar(
             BottomNavItem("Início", HomeIcon, NavDestination.VendorDashboard.route),
             BottomNavItem("Rota", RouteIcon, NavDestination.VendorRoute.route),
             BottomNavItem("Clientes", HeatmapIcon, NavDestination.VendorHeatmap.route),
+            BottomNavItem("Produtos", ShoppingBagIcon, NavDestination.VendorProducts.route),
             BottomNavItem("Conta", SettingsIcon, NavDestination.VendorSettings.route),
         )
     } else {

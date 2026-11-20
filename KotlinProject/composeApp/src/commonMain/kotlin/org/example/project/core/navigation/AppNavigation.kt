@@ -2,13 +2,11 @@ package org.example.project.core.navigation
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.key
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -17,8 +15,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.savedstate.read
-import kotlinx.coroutines.launch
 import org.example.project.features.auth.ConsumerRegisterScreen
+import org.example.project.features.auth.BiometricEntry
 import org.example.project.features.auth.ForgotPasswordScreen
 import org.example.project.features.auth.LoginScreen
 import org.example.project.features.auth.RegisterTypeScreen
@@ -37,16 +35,24 @@ import org.example.project.features.vendor.HeatmapScreen
 import org.example.project.features.vendor.SubscriptionScreen
 import org.example.project.features.vendor.VendorDashboardScreen
 import org.example.project.features.vendor.VendorProductsScreen
+import org.example.project.features.vendor.VendorProductEditorScreen
 import org.example.project.features.vendor.VendorRouteScreen
 import org.example.project.features.vendor.VendorSettingsScreen
 
 @Composable
-fun AppNavigation() {
+internal fun AppGraph(
+    startRoute: String,
+    userId: String?,
+    sessionMessage: String?,
+    biometricSettings: (@Composable () -> Unit)? = null,
+    biometricEntry: BiometricEntry? = null,
+) = key(startRoute, userId) {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
-    val snackbarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
+    val currentSessionMessage by rememberUpdatedState(sessionMessage)
+    val currentBiometricSettings by rememberUpdatedState(biometricSettings)
+    val currentBiometricEntry by rememberUpdatedState(biometricEntry)
 
     val showConsumerBottomNav = currentRoute in listOf(
         NavDestination.ConsumerHome.route,
@@ -59,15 +65,11 @@ fun AppNavigation() {
         NavDestination.VendorDashboard.route,
         NavDestination.VendorRoute.route,
         NavDestination.VendorHeatmap.route,
+        NavDestination.VendorProducts.route,
         NavDestination.VendorSettings.route
     )
 
     Scaffold(
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState) { data ->
-                Snackbar(snackbarData = data)
-            }
-        },
         bottomBar = {
             if (showConsumerBottomNav || showVendorBottomNav) {
                 BottomNavBar(
@@ -91,7 +93,7 @@ fun AppNavigation() {
     ) { innerPadding ->
         NavHost(
             navController = navController,
-            startDestination = NavDestination.Splash.route,
+            startDestination = startRoute,
             modifier = Modifier.padding(innerPadding)
         ) {
             composable(NavDestination.Splash.route) {
@@ -105,23 +107,8 @@ fun AppNavigation() {
             }
             composable(NavDestination.Login.route) {
                 LoginScreen(
-                    onLogin = { role ->
-                        val isVendor = role == "vendor"
-                        val destination = if (isVendor) {
-                            NavDestination.VendorDashboard.route
-                        } else {
-                            NavDestination.ConsumerHome.route
-                        }
-                        scope.launch {
-                            snackbarHostState.showSnackbar(
-                                if (isVendor) "Você entrou como profissional."
-                                else "Você entrou como cliente."
-                            )
-                        }
-                        navController.navigate(destination) {
-                            popUpTo(NavDestination.Login.route) { inclusive = true }
-                        }
-                    },
+                    sessionMessage = currentSessionMessage,
+                    biometricEntry = currentBiometricEntry,
                     onRegisterClick = { navController.navigate(NavDestination.RegisterType.route) },
                     onForgotPassword = { navController.navigate(NavDestination.ForgotPassword.route) }
                 )
@@ -211,11 +198,7 @@ fun AppNavigation() {
             composable(NavDestination.ConsumerProfile.route) {
                 ConsumerProfileScreen(
                     onFavoritesClick = { navController.navigate(NavDestination.ConsumerFavorites.route) },
-                    onLogout = {
-                        navController.navigate(NavDestination.Login.route) {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    }
+                    biometricSettings = currentBiometricSettings
                 )
             }
             composable(NavDestination.ConsumerFavorites.route) {
@@ -270,26 +253,50 @@ fun AppNavigation() {
             composable(NavDestination.VendorSettings.route) {
                 VendorSettingsScreen(
                     onSubscriptionClick = { navController.navigate(NavDestination.VendorSubscription.route) },
-                    onLogout = {
-                        navController.navigate(NavDestination.Login.route) {
-                            popUpTo(0) { inclusive = true }
-                        }
-                    },
-                    onEditProducts = { navController.navigate(NavDestination.VendorProducts.route) }
+                    userId = userId ?: return@composable,
+                    biometricSettings = currentBiometricSettings
                 )
             }
             composable(NavDestination.VendorSubscription.route) {
                 SubscriptionScreen(
                     onBack = { navController.popBackStack() },
                     onSubscribe = {
-                        navController.navigate(NavDestination.VendorDashboard.route) {
-                            popUpTo(0) { inclusive = true }
+                        val destination = if (userId != null) NavDestination.VendorDashboard.route
+                            else NavDestination.Login.route
+                        navController.navigate(destination) {
+                            popUpTo(NavDestination.VendorSubscription.route) { inclusive = true }
                         }
                     }
                 )
             }
-            composable(NavDestination.VendorProducts.route) {
-                VendorProductsScreen(onBack = { navController.popBackStack() })
+            composable(NavDestination.VendorProducts.route) { entry ->
+                val catalogRevision by entry.savedStateHandle.getStateFlow("catalog_revision", 0).collectAsState()
+                VendorProductsScreen(
+                    userId = userId ?: return@composable,
+                    catalogRevision = catalogRevision,
+                    onEditProduct = { navController.navigate(NavDestination.VendorProductEditor.createRoute(it)) }
+                )
+            }
+            composable(
+                route = NavDestination.VendorProductEditor.route,
+                arguments = listOf(navArgument("productId") {
+                    type = NavType.StringType
+                    nullable = true
+                    defaultValue = null
+                })
+            ) { entry ->
+                if (userId != null) {
+                    VendorProductEditorScreen(
+                        productId = entry.arguments?.read { getStringOrNull("productId") },
+                        onBack = { navController.popBackStack() },
+                        onSaved = {
+                            navController.previousBackStackEntry?.savedStateHandle?.let { state ->
+                                state["catalog_revision"] = (state.get<Int>("catalog_revision") ?: 0) + 1
+                            }
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
         }
     }

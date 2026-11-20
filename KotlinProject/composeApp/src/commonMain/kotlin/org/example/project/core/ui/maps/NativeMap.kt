@@ -2,6 +2,7 @@ package org.example.project.core.ui.maps
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import org.example.project.core.data.VendorMapMarker
 import org.example.project.core.utils.Location
 
 data class HeatZoneLocation(
@@ -17,5 +18,7 @@ expect fun NativeMap(
     vendorLocations: List<Location> = emptyList(),
     routePoints: List<Location> = emptyList(),
     heatZones: List<HeatZoneLocation> = emptyList(),
-    onMapClick: (Location) -> Unit = {}
+    onMapClick: (Location) -> Unit = {},
+    activeVendors: List<VendorMapMarker> = emptyList(),
+    onVendorClick: (String) -> Unit = {}
 )

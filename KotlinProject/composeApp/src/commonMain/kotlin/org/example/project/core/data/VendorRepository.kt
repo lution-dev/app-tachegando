@@ -4,6 +4,7 @@ import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.realtime.PostgresAction
 import io.github.jan.supabase.realtime.channel
 import io.github.jan.supabase.realtime.postgresChangeFlow
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.serialization.SerialName
@@ -31,12 +32,32 @@ data class Product(
     val price: String = ""
 )
 
+@Serializable
+private data class VendorRow(
+    val id: String,
+    val name: String,
+    val description: String? = null,
+    val category: String? = null,
+    val distance: String? = null,
+    val rating: String? = null,
+    @SerialName("review_count") val reviewCount: Int? = null,
+    @SerialName("is_online") val isOnline: Boolean? = null,
+    val latitude: Double? = null,
+    val longitude: Double? = null,
+    val products: List<Product>? = null
+) {
+    fun toVendor() = Vendor(
+        id, name, description.orEmpty(), category.orEmpty(), distance.orEmpty(), rating ?: "0,0",
+        reviewCount ?: 0, isOnline ?: false, latitude, longitude, products.orEmpty()
+    )
+}
+
 object VendorRepository {
     val vendors = emptyList<Vendor>()
 
     suspend fun getVendors(): List<Vendor> {
         return try {
-            supabase.postgrest["vendors"].select().decodeList<Vendor>()
+            supabase.postgrest["vendors"].select().decodeList<VendorRow>().map(VendorRow::toVendor)
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()
@@ -104,9 +125,10 @@ object VendorRepository {
         return try {
             supabase.postgrest["vendors"].select {
                 filter { eq("id", id) }
-            }.decodeSingleOrNull<Vendor>()
-        } catch (e: Exception) {
-            e.printStackTrace()
+            }.decodeSingleOrNull<VendorRow>()?.toVendor()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
             null
         }
     }
@@ -115,9 +137,10 @@ object VendorRepository {
         return try {
             supabase.postgrest["vendors"].select {
                 filter { eq("user_id", userId) }
-            }.decodeSingleOrNull<Vendor>()
-        } catch (e: Exception) {
-            e.printStackTrace()
+            }.decodeSingleOrNull<VendorRow>()?.toVendor()
+        } catch (e: CancellationException) {
+            throw e
+        } catch (_: Exception) {
             getById(userId)
         }
     }
@@ -130,7 +153,7 @@ object VendorRepository {
         return try {
             supabase.postgrest["vendors"].select {
                 filter { eq("category", category) }
-            }.decodeList<Vendor>()
+            }.decodeList<VendorRow>().map(VendorRow::toVendor)
         } catch (e: Exception) {
             e.printStackTrace()
             emptyList()

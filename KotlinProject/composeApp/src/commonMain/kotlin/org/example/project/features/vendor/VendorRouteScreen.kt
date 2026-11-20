@@ -13,19 +13,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import io.github.jan.supabase.auth.auth
-import kotlinx.coroutines.launch
-import org.example.project.core.data.VendorRepository
-import org.example.project.core.data.supabase
 import org.example.project.core.utils.Location
 import org.example.project.core.utils.rememberLocationTracker
 
@@ -36,23 +30,10 @@ fun VendorRouteScreen(
     onStartRoute: () -> Unit = {}
 ) {
     val locationTracker = rememberLocationTracker()
-    val scope = rememberCoroutineScope()
     var currentLocation by remember { mutableStateOf<Location?>(null) }
 
-    LaunchedEffect(Unit) {
-        val userId = supabase.auth.currentUserOrNull()?.id ?: return@LaunchedEffect
-        locationTracker.startTracking { loc ->
-            currentLocation = loc
-            scope.launch {
-                VendorRepository.updateLocationForUser(userId, loc.latitude, loc.longitude)
-            }
-        }
-    }
-
-    DisposableEffect(Unit) {
-        onDispose {
-            locationTracker.stopTracking()
-        }
+    LaunchedEffect(locationTracker) {
+        currentLocation = locationTracker.getCurrentLocation()
     }
 
     Scaffold(

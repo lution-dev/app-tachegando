@@ -9,6 +9,51 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.path
 import androidx.compose.ui.unit.dp
 
+internal val CameraIcon = ImageVector.Builder("Camera", 24.dp, 24.dp, 24f, 24f).apply {
+    path(stroke = SolidColor(Color.Black), strokeLineWidth = 1.8f, strokeLineJoin = StrokeJoin.Round) {
+        moveTo(3f, 7f)
+        horizontalLineTo(7.5f)
+        lineTo(9f, 4.5f)
+        horizontalLineTo(15f)
+        lineTo(16.5f, 7f)
+        horizontalLineTo(21f)
+        verticalLineTo(19.5f)
+        horizontalLineTo(3f)
+        close()
+        moveTo(15.5f, 12.8f)
+        curveTo(15.5f, 8.2f, 8.5f, 8.2f, 8.5f, 12.8f)
+        curveTo(8.5f, 17.4f, 15.5f, 17.4f, 15.5f, 12.8f)
+        close()
+    }
+}.build()
+
+internal val FingerprintIcon = ImageVector.Builder(
+    name = "Fingerprint",
+    defaultWidth = 24.dp,
+    defaultHeight = 24.dp,
+    viewportWidth = 24f,
+    viewportHeight = 24f
+).apply {
+    path(stroke = SolidColor(Color.Black), strokeLineWidth = 1.6f, strokeLineCap = StrokeCap.Round) {
+        moveTo(5.2f, 6f)
+        curveTo(8.7f, 2.1f, 15.3f, 2.1f, 18.8f, 6f)
+        moveTo(3.8f, 12f)
+        curveTo(3.8f, 7.7f, 7.5f, 5.5f, 12f, 5.5f)
+        curveTo(16.5f, 5.5f, 20.2f, 8.5f, 20.2f, 13.2f)
+        moveTo(6.1f, 17.8f)
+        curveTo(6.8f, 16.3f, 6.7f, 14.8f, 6.7f, 13.1f)
+        curveTo(6.7f, 10.2f, 8.9f, 8.5f, 12f, 8.5f)
+        curveTo(15.1f, 8.5f, 17.3f, 10.5f, 17.3f, 13.5f)
+        curveTo(17.3f, 15.6f, 18.1f, 17.2f, 19.5f, 18f)
+        moveTo(8.1f, 20.8f)
+        curveTo(9.1f, 18.9f, 9.7f, 16.4f, 9.7f, 13.5f)
+        curveTo(9.7f, 10.8f, 14.3f, 10.8f, 14.3f, 13.5f)
+        curveTo(14.3f, 16.6f, 15.5f, 19f, 17.6f, 20.1f)
+        moveTo(11.9f, 21.4f)
+        curveTo(12.3f, 19.9f, 12.3f, 18.5f, 12.2f, 17.2f)
+    }
+}.build()
+
 internal val EmailIcon: ImageVector
     get() = ImageVector.Builder(
         name = "Email",

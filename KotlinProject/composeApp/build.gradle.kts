@@ -41,6 +41,7 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
+            implementation(libs.androidx.biometric)
             implementation(libs.ktor.client.okhttp)
             implementation(libs.maps.compose)
             implementation(libs.play.services.maps)
@@ -82,8 +83,8 @@ android {
         applicationId = "org.example.project"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 7
+        versionName = "1.0.6"
     }
     packaging {
         resources {

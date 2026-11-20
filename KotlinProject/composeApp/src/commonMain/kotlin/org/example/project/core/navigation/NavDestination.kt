@@ -30,4 +30,8 @@ sealed class NavDestination(val route: String, val title: String) {
     object VendorSettings : NavDestination("vendor_settings", "Conta")
     object VendorSubscription : NavDestination("vendor_subscription", "Meu Plano")
     object VendorProducts : NavDestination("vendor_products", "Meus Produtos")
+    object VendorProductEditor : NavDestination("vendor_product_editor?productId={productId}", "Produto") {
+        fun createRoute(productId: String?) = productId?.let { "vendor_product_editor?productId=$it" }
+            ?: "vendor_product_editor"
+    }
 }

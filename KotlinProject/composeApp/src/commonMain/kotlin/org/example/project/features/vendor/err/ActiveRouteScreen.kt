@@ -1,5 +1,8 @@
 package org.example.project.features.vendor.err
 
+import kotlin.uuid.ExperimentalUuidApi
+import kotlin.uuid.Uuid
+
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -10,12 +13,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.NonCancellable
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.withContext
 import org.example.project.core.domain.models.DemandCluster
 import org.example.project.core.data.RouteRepository
+import org.example.project.core.data.CatalogRepository
 import org.example.project.core.ui.maps.NativeMap
 import org.example.project.core.utils.Location
+import org.example.project.core.utils.UiState
+import org.example.project.core.utils.rememberLocationTracker
 
+@OptIn(ExperimentalUuidApi::class)
 @Composable
 fun ActiveRouteScreen(
     routeId: String,
@@ -23,12 +37,65 @@ fun ActiveRouteScreen(
 ) {
     val engine = remember { ERREngine(RouteRepository()) }
     var clusters by remember { mutableStateOf<List<DemandCluster>>(emptyList()) }
+    val tracker = rememberLocationTracker()
+    val lifecycle = LocalLifecycleOwner.current.lifecycle
+    var currentLocation by remember(routeId) { mutableStateOf<Location?>(null) }
+    var sharingMessage by remember(routeId) { mutableStateOf("Aguardando localização do aparelho…") }
+    var sharingError by remember(routeId) { mutableStateOf(false) }
+    var retrySharing by remember(routeId) { mutableIntStateOf(0) }
+
+    LaunchedEffect(routeId, retrySharing, lifecycle) {
+        sharingError = false
+        if (!tracker.requestLocationPermission()) {
+            sharingMessage = "Autorize a localização para aparecer no mapa."
+            sharingError = true
+            return@LaunchedEffect
+        }
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            sharingMessage = "Aguardando localização do aparelho…"
+            val sessionId = Uuid.random().toString()
+            val updates = Channel<Location>(Channel.CONFLATED)
+            try {
+                val begun = CatalogRepository.beginMapSession(sessionId)
+                if (begun is UiState.Error) {
+                    sharingMessage = begun.message
+                    sharingError = true
+                    return@repeatOnLifecycle
+                }
+                tracker.startTracking { fix ->
+                    currentLocation = fix
+                    updates.trySend(fix)
+                }
+                for (fix in updates) {
+                    val sent = CatalogRepository.publishMapPosition(sessionId, fix)
+                    when (sent) {
+                        is UiState.Success -> {
+                            sharingMessage = "Sua rota aparece no mapa."
+                            sharingError = false
+                        }
+                        is UiState.Error -> {
+                            sharingMessage = sent.message
+                            sharingError = true
+                        }
+                        UiState.Loading -> Unit
+                    }
+                    delay(5_000)
+                }
+            } finally {
+                tracker.stopTracking()
+                updates.close()
+                withContext(NonCancellable) { CatalogRepository.endMapSession(sessionId) }
+            }
+        }
+    }
 
     LaunchedEffect(routeId) {
         while (true) {
             try {
                 clusters = engine.processIntents(routeId)
-            } catch (e: Exception) {
+            } catch (e: CancellationException) {
+                throw e
+            } catch (_: Exception) {
                 // Previne crash silencioso
             }
             delay(30000) // Poll a cada 30s
@@ -38,7 +105,7 @@ fun ActiveRouteScreen(
     Box(modifier = Modifier.fillMaxSize()) {
         NativeMap(
             modifier = Modifier.fillMaxSize(),
-            userLocation = Location(-23.5505, -46.6333) // Mock GPS location
+            userLocation = currentLocation
         )
 
         // Botão de voltar/encerrar no topo
@@ -71,10 +138,11 @@ fun ActiveRouteScreen(
                     style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
                 )
                 Text(
-                    "Procurando clientes por perto.",
+                    sharingMessage,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = if (sharingError) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.onSurfaceVariant
                 )
+                if (sharingError) TextButton(onClick = { retrySharing++ }) { Text("Tentar novamente") }
                 Spacer(modifier = Modifier.height(12.dp))
 
                 LazyColumn(modifier = Modifier.fillMaxSize()) {

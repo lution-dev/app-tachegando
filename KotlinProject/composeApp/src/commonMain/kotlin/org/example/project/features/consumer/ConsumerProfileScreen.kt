@@ -6,8 +6,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun ConsumerProfileScreen(
     onFavoritesClick: () -> Unit,
-    onLogout: () -> Unit
+    biometricSettings: (@Composable () -> Unit)?
 ) {
     Scaffold(
         topBar = {
@@ -33,6 +33,7 @@ fun ConsumerProfileScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
+                .verticalScroll(rememberScrollState())
                 .padding(16.dp)
         ) {
             Text("Olá", style = MaterialTheme.typography.headlineMedium)
@@ -48,15 +49,11 @@ fun ConsumerProfileScreen(
 
             Spacer(modifier = Modifier.height(32.dp))
 
-            Button(
-                onClick = onLogout,
-                modifier = Modifier.fillMaxWidth(),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.error
-                )
-            ) {
-                Text("Sair da Conta")
+            if (biometricSettings != null) {
+                biometricSettings()
+                Spacer(modifier = Modifier.height(16.dp))
             }
+
         }
     }
 }

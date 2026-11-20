@@ -35,6 +35,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import org.example.project.core.data.VendorRepository
 import org.example.project.core.data.Vendor
 import org.example.project.core.utils.UiState
+import org.example.project.core.ui.maps.rememberActiveVendorMarkers
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.foundation.layout.Row
@@ -49,7 +50,6 @@ import org.example.project.core.navigation.LocationOnIcon
 import androidx.compose.ui.text.font.FontWeight
 
 import androidx.compose.runtime.collectAsState
-import org.example.project.core.utils.Location
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -66,9 +66,7 @@ fun ConsumerHomeScreen(
     val vendors by vendorsFlow.collectAsState(initial = emptyList())
     val uiState = if (vendors.isNotEmpty()) UiState.Success(vendors) else UiState.Loading
 
-    val vendorLocations = vendors.mapNotNull {
-        if (it.latitude != null && it.longitude != null) Location(it.latitude, it.longitude) else null
-    }
+    val activeVendors by rememberActiveVendorMarkers()
 
     Scaffold(
         topBar = {
@@ -82,8 +80,8 @@ fun ConsumerHomeScreen(
             org.example.project.core.ui.maps.NativeMap(
                 modifier = Modifier.fillMaxSize(),
                 userLocation = null, // TODO: Add consumer's own location tracking later
-                vendorLocations = vendorLocations,
-                onMapClick = { }
+                activeVendors = activeVendors,
+                onVendorClick = onVendorClick
             )
 
             Column(

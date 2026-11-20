@@ -39,6 +39,7 @@ import org.example.project.core.navigation.PersonIcon
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.ui.draw.clip
 import androidx.compose.runtime.collectAsState
+import org.example.project.core.ui.maps.rememberActiveVendorMarkers
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,6 +48,7 @@ fun VendorTrackingScreen(
     onBack: () -> Unit,
     onProfileClick: (String) -> Unit
 ) {
+    val activeVendors by rememberActiveVendorMarkers(vendorId)
     val uiState by produceState<UiState<Vendor?>>(initialValue = UiState.Loading, vendorId) {
         val result = VendorRepository.getById(vendorId)
         value = UiState.Success(result)
@@ -111,15 +113,9 @@ fun VendorTrackingScreen(
                     .padding(16.dp)
                     .clip(RoundedCornerShape(12.dp))
             ) {
-                val vendorLocation = currentVendor?.let {
-                    if (it.latitude != null && it.longitude != null) org.example.project.core.utils.Location(it.latitude, it.longitude) else null
-                }
-
                 org.example.project.core.ui.maps.NativeMap(
                     modifier = Modifier.fillMaxSize(),
-                    userLocation = null,
-                    vendorLocations = vendorLocation?.let { listOf(it) } ?: emptyList(),
-                    onMapClick = {}
+                    activeVendors = activeVendors
                 )
                 // Overlay button
                 Box(
@@ -136,7 +132,7 @@ fun VendorTrackingScreen(
             }
 
             Text(
-                text = "Está chegando em 2 minutos.",
+                text = if (activeVendors.isEmpty()) "Sem localização recente da rota." else "Rota em andamento",
                 color = MaterialTheme.colorScheme.onBackground,
                 fontWeight = FontWeight.Bold,
                 style = MaterialTheme.typography.titleMedium,

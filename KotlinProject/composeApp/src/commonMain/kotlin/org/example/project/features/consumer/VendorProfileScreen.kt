@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
@@ -39,6 +40,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
 import org.example.project.core.data.PurchaseIntentRepository
+import org.example.project.core.data.CatalogProduct
+import org.example.project.core.data.CatalogRepository
 import org.example.project.core.data.VendorRepository
 import org.example.project.core.data.Vendor
 import org.example.project.core.utils.UiState
@@ -48,6 +51,7 @@ import org.example.project.core.navigation.ArrowForwardIcon
 import org.example.project.core.navigation.LocationOnIcon
 import org.example.project.core.navigation.PersonIcon
 import org.example.project.core.navigation.StarIcon
+import org.example.project.features.vendor.PhotoPreview
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -59,6 +63,9 @@ fun VendorProfileScreen(
     val uiState by produceState<UiState<Vendor?>>(initialValue = UiState.Loading, vendorId) {
         val result = VendorRepository.getById(vendorId)
         value = UiState.Success(result)
+    }
+    val catalog by produceState<UiState<List<CatalogProduct>>>(UiState.Loading, vendorId) {
+        value = CatalogRepository.products(vendorId)
     }
     var isFollowing by remember { mutableStateOf(false) }
     var isAlertEnabled by remember { mutableStateOf(false) }
@@ -211,21 +218,29 @@ fun VendorProfileScreen(
                         modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)
                     )
                 }
-                items(vendor.products.size) { index ->
-                    val product = vendor.products[index]
-                    Row(
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Box(
-                            modifier = Modifier.size(48.dp).clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.surfaceVariant),
-                            contentAlignment = Alignment.Center
-                        ) {
-                            Text("${index + 1}", style = MaterialTheme.typography.bodySmall)
+                when (val result = catalog) {
+                    UiState.Loading -> item { Text("Carregando produtos…", Modifier.padding(horizontal = 16.dp)) }
+                    is UiState.Error -> {
+                        if (vendor.products.isEmpty()) item { Text(result.message, Modifier.padding(horizontal = 16.dp)) }
+                        items(vendor.products) { product ->
+                            Text(product.name, Modifier.padding(horizontal = 16.dp, vertical = 6.dp))
                         }
-                        Spacer(modifier = Modifier.width(12.dp))
-                        Text(product.name, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                    }
+                    is UiState.Success -> {
+                        if (result.data.isEmpty()) item { Text("Sem produtos no catálogo.", Modifier.padding(horizontal = 16.dp)) }
+                        items(result.data, key = { it.id }) { product ->
+                            val photo by produceState<ByteArray?>(null, product) {
+                                value = if (product.hasPhoto) CatalogRepository.productPhoto(product.id) else null
+                            }
+                            Row(
+                                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 6.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(12.dp)
+                            ) {
+                                PhotoPreview(photo, null, Modifier.size(56.dp))
+                                Text(product.name, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                            }
+                        }
                     }
                 }
                 item { Spacer(modifier = Modifier.height(24.dp)) }

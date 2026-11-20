@@ -4,5 +4,16 @@
 <dict>
 	<key>CADisableMinimumFrameDurationOnPhone</key>
 	<true/>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Use o Face ID para desbloquear sua sessão no Tá Chegando.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>br.com.tachegandoapp</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>

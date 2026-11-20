@@ -29,7 +29,9 @@ class AndroidLocationTracker(
     private val context: Context,
     private val permissionRequester: suspend () -> Boolean
 ) : LocationTracker {
-    private val fusedLocationClient: FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
+    private val fusedLocationClient: FusedLocationProviderClient by lazy {
+        LocationServices.getFusedLocationProviderClient(context)
+    }
     private var locationCallback: LocationCallback? = null
 
     override suspend fun requestLocationPermission(): Boolean {
@@ -45,13 +47,14 @@ class AndroidLocationTracker(
         }
         try {
             fusedLocationClient.lastLocation.addOnSuccessListener { loc: android.location.Location? ->
+                if (!cont.isActive) return@addOnSuccessListener
                 if (loc != null) {
                     cont.resume(Location(loc.latitude, loc.longitude))
                 } else {
                     cont.resume(null)
                 }
             }.addOnFailureListener {
-                cont.resume(null)
+                if (cont.isActive) cont.resume(null)
             }
         } catch (e: Exception) {
             e.printStackTrace()
@@ -64,6 +67,7 @@ class AndroidLocationTracker(
         if (!context.hasLocationPermission()) return
         val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
             .setMinUpdateIntervalMillis(2000)
+            .setMaxUpdateAgeMillis(0L)
             .build()
 
         locationCallback = object : LocationCallback() {

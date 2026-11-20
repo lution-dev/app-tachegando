@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
+import org.example.project.core.data.VendorMapMarker
 import org.example.project.core.utils.Location
 
 import org.example.project.core.ui.maps.HeatZoneLocation
@@ -19,7 +20,9 @@ actual fun NativeMap(
     vendorLocations: List<Location>,
     routePoints: List<Location>,
     heatZones: List<HeatZoneLocation>,
-    onMapClick: (Location) -> Unit
+    onMapClick: (Location) -> Unit,
+    activeVendors: List<VendorMapMarker>,
+    onVendorClick: (String) -> Unit
 ) {
     // Placeholder para WasmJS até a integração interop JS do Google Maps.
     Box(
